@@ -7,6 +7,8 @@ import interfaces.Part;
  * **/
 public class SubPartImpl implements Part {
 
+	private static final long serialVersionUID = 1L;
+
 
 
 }
