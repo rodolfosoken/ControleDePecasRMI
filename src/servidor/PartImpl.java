@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import interfaces.Part;
 
-// TODO: Auto-generated Javadoc
 /**
  * Classe que Implementa a peça (Part)
  * *.
@@ -33,7 +32,7 @@ public class PartImpl implements Part {
 	 * @param descricao a descrição da peça
 	 * @param subParts as subparts da peça
 	 */
-	public void Part(String nome, String descricao, Set<Part> subParts){
+	public void PartImpl(String nome, String descricao, Set<Part> subParts){
 		this.partCod = UUID.randomUUID();
 		this.partNome = nome;
 		this.partDesc = descricao;
@@ -61,93 +60,48 @@ public class PartImpl implements Part {
 		return "[Código: "+this.partCod+", Nome: "+ this.partCod+", qtd. subpart: " +this.subParts.size()+ "]";
 	}
 	
-	/**
-	 *  
-	 * Código da peça .
-	 *
-	 * @return the part cod
-	 */
+	@Override
 	public UUID getPartCod() {
 		return partCod;
 	}
 
 
-	/**
-	 *  
-	 * Código da peça .
-	 *
-	 * @param partCod the new part cod
-	 */
+	@Override
 	public void setPartCod(UUID partCod) {
 		this.partCod = partCod;
 	}
 
 
-	/**
-	 * Nome da Peça
-	 * *.
-	 *
-	 * @return the part nome
-	 */
+	@Override
 	public String getPartNome() {
 		return partNome;
 	}
 
-
-	/**
-	 * Nome da Peça
-	 * *.
-	 *
-	 * @param partNome the new part nome
-	 */
+	@Override
 	public void setPartNome(String partNome) {
 		this.partNome = partNome;
 	}
 
 
-	/**
-	 * Descrição da Peça
-	 * *.
-	 *
-	 * @return the part desc
-	 */
+	@Override
 	public String getPartDesc() {
 		return partDesc;
 	}
 
 
-	/**
-	 * Descrição da Peça
-	 * *.
-	 *
-	 * @param partDesc the new part desc
-	 */
+	@Override
 	public void setPartDesc(String partDesc) {
 		this.partDesc = partDesc;
 	}
 
 
-	/**
-	 * *
-	 * Conjuntos de peças que compõem esta peça,
-	 * o tipo Set não aceita repetição nem mais de um objeto null.
-	 * *
-	 *
-	 * @return the sub parts
-	 */
+	@Override
 	public Set<Part> getSubParts() {
 		return subParts;
 	}
 
 
-	/**
-	 * *
-	 * Conjuntos de peças que compõem esta peça,
-	 * o tipo Set não aceita repetição nem mais de um objeto null.
-	 * *
-	 *
-	 * @param subParts the new sub parts
-	 */
+	@Override
 	public void setSubParts(Set<Part> subParts) {
 		this.subParts = subParts;
 	}
