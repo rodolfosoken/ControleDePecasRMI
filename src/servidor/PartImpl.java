@@ -1,15 +1,14 @@
 package servidor;
 
-import java.util.Set;
 import java.util.UUID;
 
 import interfaces.Part;
 
 /**
- * Classe que Implementa a peça (Part)
- * *.
+ * Classe abstrata que Implementa a peça (Part)
+ * Serve como implementação básica para as classes que a herdam 
  */
-public class PartImpl implements Part {
+public abstract class PartImpl implements Part {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -23,20 +22,18 @@ public class PartImpl implements Part {
 	//Descriçao da peça
 	private String partDesc;
 	
-	//Conjunto de subpeças
-	private Set<Part> subParts;
+
 	
 	/**
 	 * Gera uma nova peça com os parâmetros.
 	 * @param nome o nome da peça
 	 * @param descricao a descrição da peça
-	 * @param subParts as subparts da peça
 	 */
-	public void PartImpl(String nome, String descricao, Set<Part> subParts){
+	 PartImpl(String nome, String descricao){
+		super();
 		this.partCod = UUID.randomUUID();
 		this.partNome = nome;
 		this.partDesc = descricao;
-		this.subParts = subParts;
 	}
 	
 	/**
@@ -44,20 +41,18 @@ public class PartImpl implements Part {
 	 * @param partCod
 	 * @param partNome o nome da peça
 	 * @param partDesc a descrição da peça
-	 * @param subParts as subparts da peça
 	 */
-	public PartImpl(UUID partCod, String partNome, String partDesc, Set<interfaces.Part> subParts) {
+	 PartImpl(UUID partCod, String partNome, String partDesc) {
 		super();
 		this.partCod = partCod;
 		this.partNome = partNome;
 		this.partDesc = partDesc;
-		this.subParts = subParts;
 	}
 
 
 	@Override
 	public String toString() {
-		return "[Código: "+this.partCod+", Nome: "+ this.partCod+", qtd. subpart: " +this.subParts.size()+ "]";
+		return "[Código: "+this.partCod+", Nome: "+ this.partCod+ "]";
 	}
 	
 	@Override
@@ -96,18 +91,6 @@ public class PartImpl implements Part {
 
 
 	@Override
-	public Set<Part> getSubParts() {
-		return subParts;
-	}
-
-
-	@Override
-	public void setSubParts(Set<Part> subParts) {
-		this.subParts = subParts;
-	}
-
-
-	@Override
 	public boolean equals(Object other){
 		// se ambos possuem o mesmo endereço, então são iguais
 		if(this == other) return true;
@@ -123,7 +106,7 @@ public class PartImpl implements Part {
 	//equals para localizar os objs em uma coleção 
 	@Override
 	public int hashCode() {
-		return (int) this.getPartCod().hashCode();
+		return (int) this.getPartCod().hashCode(); //utiliza apenas o codigo
 	}
 
 		

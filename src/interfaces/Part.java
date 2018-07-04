@@ -1,7 +1,6 @@
 package interfaces;
 
 import java.io.Serializable;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -62,25 +61,6 @@ public interface Part extends Serializable{
 	 */
 	public void setPartDesc(String partDesc);
 
-	/**
-	 * *
-	 * Conjuntos de peças que compõem esta peça,
-	 * o tipo Set não aceita repetição nem mais de um objeto null.
-	 * *
-	 *
-	 * @return the sub parts
-	 */
-	public Set<Part> getSubParts() ;
 
-
-	/**
-	 * *
-	 * Conjuntos de peças que compõem esta peça,
-	 * o tipo Set não aceita repetição nem mais de um objeto null.
-	 * *
-	 *
-	 * @param subParts the new sub parts
-	 */
-	public void setSubParts(Set<Part> subParts) ;
 
 }
