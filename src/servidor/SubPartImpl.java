@@ -5,7 +5,7 @@ import java.util.UUID;
 import interfaces.SubPart;
 
 /**
- * Classe que implementa uma peça(Part) que faz parte de outras (subpart)
+ * Classe que implementa uma peça(Part) que faz parte de outras peças (Multpart)
  * *.
  */
 public class SubPartImpl extends PartImpl implements SubPart{

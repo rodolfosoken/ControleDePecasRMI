@@ -5,10 +5,11 @@ import java.util.UUID;
 import interfaces.Part;
 
 /**
- * Classe abstrata que Implementa a peça (Part)
- * Serve como implementação básica para as classes que a herdam 
+ * Classe que Implementa a peça (Part)
+ * Serve como implementação básica para as classes que a herdam
+ * e também como uma peça única 
  */
-public abstract class PartImpl implements Part {
+public class PartImpl implements Part {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
