@@ -21,5 +21,15 @@ public interface SubPart extends Part {
 	 * @param srcPart a nova peça de origem
 	 */
 	public void setSrcPart(MultPartImpl srcPart) ;
+	
+	/**
+	 * @return qtd Qauntidade das subpeças que existem na peça original 
+	 * ***/
+	public int getQtd();
+
+	/**
+	 * @param qtd quantidade de subpeças que existem na peça original
+	 * ***/
+	public void setQtd(int qtd) ;
 
 }
