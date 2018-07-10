@@ -1,7 +1,7 @@
 package servidor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import interfaces.Part;
 import interfaces.PartRepository;
@@ -16,24 +16,35 @@ public class PartRepositoryImpl implements PartRepository {
 	 * Conjunto de partes presentes no servidor
 	 * 
 	 * **/
-	private Set<PartImpl> partes;
+	private Map<String,Part> partes;
 	
 	/**
 	 * Cria um novo repositório de peças.
 	 * **/
 	public PartRepositoryImpl() {
-		this.partes = new HashSet<>();
+		this.partes = new HashMap();
 	}
 
 
 	@Override
-	public Set<PartImpl> getPartes() {
+	public Map<String,Part> getPartes() {
 		return partes;
 	}
 
 	@Override
-	public void setPartes(Set<PartImpl> partes) {
+	public void setPartes(Map<String,Part> partes) {
 		this.partes = partes;
+	}
+	
+	@Override
+	public void addPeca(Part peca) {
+				
+	}
+
+	@Override
+	public Part getPeca(String cod) {
+	
+		return null;
 	}
 
 

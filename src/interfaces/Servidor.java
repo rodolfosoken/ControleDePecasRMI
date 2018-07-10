@@ -26,5 +26,7 @@ public interface Servidor extends Remote{
 	 * 
 	 * ***/
 	public void setRepository(PartRepositoryImpl repository);
+	
+	
 
 }

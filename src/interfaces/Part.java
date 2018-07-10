@@ -1,7 +1,6 @@
 package interfaces;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  * Interface que especifica os métodos de uma peça (Part)
@@ -13,17 +12,17 @@ public interface Part extends Serializable{
 	 *  
 	 * Código da peça .
 	 *
-	 * @return the part cod
+	 * @return o código da peça
 	 */
-	public UUID getPartCod();
+	public String getPartCod();
 
 	/**
 	 *  
 	 * Código da peça .
 	 *
-	 * @param partCod the new part cod
+	 * @param partCod o novo código da peça
 	 */
-	public void setPartCod(UUID partCod);
+	public void setPartCod(String partCod);
 
 
 	/**

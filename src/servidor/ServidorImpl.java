@@ -4,18 +4,18 @@ import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import java.util.Set;
-import java.util.UUID;
+import java.util.Map;
 
 import interfaces.Part;
 import interfaces.PartRepository;
+import interfaces.Servidor;
 
 
 /**
  * Classe que implementa o servidor.
  * <p> Composta por um PartRepository com os conjuntos de partes.
  * **/
-public class ServidorImpl implements PartRepository, Part{
+public class ServidorImpl implements Servidor, PartRepository, Part{
 	/**
 	 * Nome do Servidor
 	 * **/
@@ -45,8 +45,6 @@ public class ServidorImpl implements PartRepository, Part{
 	public ServidorImpl(String servidorNome) {
 		this.servidorNome = servidorNome;
 		this.repository = new PartRepositoryImpl();
-		this.peca = new PartImpl();
-
 	}
 	
 	
@@ -64,56 +62,47 @@ public class ServidorImpl implements PartRepository, Part{
 	}
 
 
-	/**
-	 * @return servidorNome o nome do Servidor
-	 * **/
+	@Override
 	public String getServidorNome() {
 		return servidorNome;
 	}
 
-	/**
-	 * @param servidorNome o nome do servidor.
-	 * ***/
+	@Override
 	public void setServidorNome(String servidorNome) {
 		this.servidorNome = servidorNome;
 	}
 
-	/**
-	 * @return repository o repositório de peças do servidor
-	 * ***/
+	@Override
 	public PartRepositoryImpl getRepository() {
 		return repository;
 	}
 
-	/**
-	 * @param repository repositório de peças 
-	 * 
-	 * ***/
+	@Override
 	public void setRepository(PartRepositoryImpl repository) {
 		this.repository = repository;
 	}
 
 	//============== Repositório =========
 	@Override
-	public Set<PartImpl> getPartes() {
+	public Map<String, Part> getPartes() {
 		return this.repository.getPartes();
 	}
 
 
 	@Override
-	public void setPartes(Set<PartImpl> partes) {
+	public void setPartes(Map<String, Part> partes) {
 		this.repository.setPartes(partes);		
 	}
 
 	//============== Part ===============
 	@Override
-	public UUID getPartCod() {
+	public String getPartCod() {
 		return peca.getPartCod();
 	}
 
 
 	@Override
-	public void setPartCod(UUID partCod) {
+	public void setPartCod(String partCod) {
 		peca.setPartCod(partCod);
 		
 	}
@@ -141,6 +130,22 @@ public class ServidorImpl implements PartRepository, Part{
 	public void setPartDesc(String partDesc) {
 		peca.setPartDesc(partDesc);
 	}
+
+
+	@Override
+	public void addPeca(Part peca) {
+		repository.addPeca(peca);		
+	}
+
+
+	@Override
+	public Part getPeca(String cod) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 	
 	
 	

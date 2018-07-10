@@ -15,7 +15,7 @@ public class PartImpl implements Part {
 	private static final long serialVersionUID = 1L;
 	
 	//Código da peça 
-	private UUID partCod;
+	private String partCod;
 	
 	//Nome da peça
 	private String partNome;
@@ -24,12 +24,6 @@ public class PartImpl implements Part {
 	private String partDesc;
 	
 	
-	/**
-	 * Cria uma nova peça com um novo código.
-	 * **/
-	public PartImpl() {
-		this.partCod = UUID.randomUUID();
-	}
 	
 	/**
 	 * Gera uma nova peça com os parâmetros.
@@ -37,7 +31,7 @@ public class PartImpl implements Part {
 	 * @param descricao a descrição da peça
 	 */
 	 PartImpl(String nome, String descricao){
-		this.partCod = UUID.randomUUID();
+		this.partCod = UUID.randomUUID().toString();
 		this.partNome = nome;
 		this.partDesc = descricao;
 	}
@@ -48,7 +42,7 @@ public class PartImpl implements Part {
 	 * @param partNome o nome da peça
 	 * @param partDesc a descrição da peça
 	 */
-	 PartImpl(UUID partCod, String partNome, String partDesc) {
+	 PartImpl(String partCod, String partNome, String partDesc) {
 		this.partCod = partCod;
 		this.partNome = partNome;
 		this.partDesc = partDesc;
@@ -61,13 +55,13 @@ public class PartImpl implements Part {
 	}
 	
 	@Override
-	public UUID getPartCod() {
+	public String getPartCod() {
 		return partCod;
 	}
 
 
 	@Override
-	public void setPartCod(UUID partCod) {
+	public void setPartCod(String partCod) {
 		this.partCod = partCod;
 	}
 
