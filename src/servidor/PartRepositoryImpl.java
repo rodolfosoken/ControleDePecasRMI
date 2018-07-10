@@ -11,11 +11,7 @@ import interfaces.PartRepository;
  * **/
 public class PartRepositoryImpl implements PartRepository {
 	
-	/**
-	 * Nome do Servidor
-	 * **/
-	private String servidorNome;
-	
+
 	/**
 	 * Conjunto de partes presentes no servidor
 	 * 
@@ -23,15 +19,10 @@ public class PartRepositoryImpl implements PartRepository {
 	private Set<PartImpl> partes;
 	
 	/**
-	 * Conjunto de stubs presentes no servidor
-	 * 
+	 * Cria um novo repositório de peças.
 	 * **/
-	private Set<Part> stubs;
-	
-	public PartRepositoryImpl(String servidorNome) {
-		this.servidorNome = servidorNome;
+	public PartRepositoryImpl() {
 		this.partes = new HashSet<>();
-		this.stubs = new HashSet<>();
 	}
 
 
@@ -45,25 +36,5 @@ public class PartRepositoryImpl implements PartRepository {
 		this.partes = partes;
 	}
 
-	@Override
-	public Set<Part> getStubs() {
-		return stubs;
-	}
-
-	@Override
-	public void setStubs(Set<Part> stubs) {
-		this.stubs = stubs;
-	}
-
-	@Override
-	public void setServidorNome(String servidorNome) {
-		this.servidorNome = servidorNome;
-	}
-
-
-	@Override
-	public String getServidorNome() {
-		return this.servidorNome;
-	}
 
 }

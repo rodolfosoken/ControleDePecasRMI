@@ -29,12 +29,12 @@ class PartRepositoryTest {
 			stub = (PartRepository) UnicastRemoteObject.exportObject(repo,0);
 			reg = LocateRegistry.getRegistry();
 			reg.bind(nome, stub);
-			System.out.println("Servidor "+repo.getServidorNome()+" iniciado");
+//			System.out.println("Servidor: "+repo.getServidorNome()+" iniciado");
 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			fail("Erro de conexão");
+			fail("Erro de conexão: verificar rmiregistry");
 		} catch (AlreadyBoundException e) {
 			e.printStackTrace();
 			fail("Stub já registrado");
@@ -53,6 +53,7 @@ class PartRepositoryTest {
 
 	@Test
 	void test() {
+		
 		
 	}
 

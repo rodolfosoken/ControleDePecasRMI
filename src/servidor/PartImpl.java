@@ -23,7 +23,13 @@ public class PartImpl implements Part {
 	//Descriçao da peça
 	private String partDesc;
 	
-
+	
+	/**
+	 * Cria uma nova peça com um novo código.
+	 * **/
+	public PartImpl() {
+		this.partCod = UUID.randomUUID();
+	}
 	
 	/**
 	 * Gera uma nova peça com os parâmetros.
@@ -31,7 +37,6 @@ public class PartImpl implements Part {
 	 * @param descricao a descrição da peça
 	 */
 	 PartImpl(String nome, String descricao){
-		super();
 		this.partCod = UUID.randomUUID();
 		this.partNome = nome;
 		this.partDesc = descricao;
@@ -44,7 +49,6 @@ public class PartImpl implements Part {
 	 * @param partDesc a descrição da peça
 	 */
 	 PartImpl(UUID partCod, String partNome, String partDesc) {
-		super();
 		this.partCod = partCod;
 		this.partNome = partNome;
 		this.partDesc = partDesc;
