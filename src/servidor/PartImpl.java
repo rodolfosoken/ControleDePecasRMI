@@ -42,7 +42,7 @@ public class PartImpl implements Part {
 	 * @param partNome o nome da peça
 	 * @param partDesc a descrição da peça
 	 */
-	 PartImpl(String partCod, String partNome, String partDesc) {
+	 public PartImpl(String partCod, String partNome, String partDesc) {
 		this.partCod = partCod;
 		this.partNome = partNome;
 		this.partDesc = partDesc;
@@ -51,7 +51,7 @@ public class PartImpl implements Part {
 
 	@Override
 	public String toString() {
-		return "[Código: "+this.partCod+", Nome: "+ this.partCod+ "]";
+		return "[Cod.: "+this.partCod+", Nome: "+this.partNome+", Desc.: "+ this.partDesc+ "]";
 	}
 	
 	@Override
