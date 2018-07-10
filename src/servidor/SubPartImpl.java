@@ -1,7 +1,5 @@
 package servidor;
 
-import java.util.UUID;
-
 import interfaces.SubPart;
 
 /**
@@ -29,7 +27,7 @@ public class SubPartImpl extends PartImpl implements SubPart{
 	 * @param srcPart a peça de origem
 	 * @param qtd quantidade de subpeças que exitem na peça original
 	 */
-	SubPartImpl(UUID partCod, String partNome, String partDesc, MultPartImpl srcPart, int qtd) {
+	SubPartImpl(String partCod, String partNome, String partDesc, MultPartImpl srcPart, int qtd) {
 		super(partCod, partNome, partDesc);
 		this.srcPart = srcPart;
 		this.qtd = qtd;

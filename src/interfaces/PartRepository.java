@@ -30,6 +30,18 @@ public interface PartRepository  {
 	 * Busca peca por código
 	 * ***/
 	public Part getPeca(String cod);
+	
+	
+	/**
+	 * @return nome do repositório
+	 * **/
+	public String getNomeRepository();
+	
+	/**
+	 * @param nomeRepository novo nome do repositório
+	 * ***/
+	public void setNomeRepository(String nomeRepository);
+	
 
 
 }

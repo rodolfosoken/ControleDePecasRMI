@@ -39,7 +39,7 @@ public class MultPartImpl extends PartImpl implements MultPart{
 	 * @param partDesc the part desc
 	 * @param subParts the sub parts
 	 */
-	MultPartImpl(UUID partCod, String partNome, String partDesc, Set<SubPart> subParts) {
+	MultPartImpl(String partCod, String partNome, String partDesc, Set<SubPart> subParts) {
 		super(partCod, partNome, partDesc);
 		this.subParts = subParts;
 	}

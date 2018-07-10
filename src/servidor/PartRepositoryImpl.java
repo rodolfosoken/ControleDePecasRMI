@@ -19,10 +19,16 @@ public class PartRepositoryImpl implements PartRepository {
 	private Map<String,Part> partes;
 	
 	/**
+	 * Nome do repositório.
+	 * ***/
+	private String nomeRepository;
+	
+	/**
 	 * Cria um novo repositório de peças.
 	 * **/
-	public PartRepositoryImpl() {
-		this.partes = new HashMap();
+	public PartRepositoryImpl(String nomeRepository) {
+		this.partes = new HashMap<String, Part>();
+		this.nomeRepository = nomeRepository;
 	}
 
 
@@ -38,13 +44,24 @@ public class PartRepositoryImpl implements PartRepository {
 	
 	@Override
 	public void addPeca(Part peca) {
-				
+		this.partes.put(peca.getPartCod(), peca);				
 	}
 
 	@Override
 	public Part getPeca(String cod) {
-	
-		return null;
+		return partes.get(cod);
+	}
+
+
+	@Override
+	public String getNomeRepository() {
+		return this.nomeRepository;
+	}
+
+
+	@Override
+	public void setNomeRepository(String nomeRepository) {
+		this.nomeRepository = nomeRepository;
 	}
 
 

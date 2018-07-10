@@ -17,6 +17,12 @@ import interfaces.Servidor;
  * **/
 public class ServidorImpl implements Servidor, PartRepository, Part{
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	/**
 	 * Nome do Servidor
 	 * **/
 	private String servidorNome;
@@ -44,7 +50,7 @@ public class ServidorImpl implements Servidor, PartRepository, Part{
 	 * **/
 	public ServidorImpl(String servidorNome) {
 		this.servidorNome = servidorNome;
-		this.repository = new PartRepositoryImpl();
+		this.repository = new PartRepositoryImpl("repos_"+servidorNome);
 	}
 	
 	
@@ -140,8 +146,19 @@ public class ServidorImpl implements Servidor, PartRepository, Part{
 
 	@Override
 	public Part getPeca(String cod) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.getPeca(cod);
+	}
+
+
+	@Override
+	public String getNomeRepository() {
+		return repository.getNomeRepository();
+	}
+
+
+	@Override
+	public void setNomeRepository(String nomeRepository) {
+		repository.setNomeRepository(nomeRepository);		
 	}
 
 

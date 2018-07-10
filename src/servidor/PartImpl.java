@@ -30,7 +30,7 @@ public class PartImpl implements Part {
 	 * @param nome o nome da peça
 	 * @param descricao a descrição da peça
 	 */
-	 PartImpl(String nome, String descricao){
+	 public PartImpl(String nome, String descricao){
 		this.partCod = UUID.randomUUID().toString();
 		this.partNome = nome;
 		this.partDesc = descricao;
