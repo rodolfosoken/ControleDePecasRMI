@@ -28,9 +28,9 @@ class ServidorTest {
 		String  nome = "TesteAdd";
 		ServidorImpl server = new ServidorImpl(nome);
 		Part peca = new PartImpl("123","PecaTeste","Peça única");
-		server.addPeca(peca);
+		server.getRepository().addPeca(peca);
 //		System.out.println(server.getPartes().toString());
-		assertEquals(1, server.getPartes().values().size());
+		assertEquals(1, server.getRepository().getPartes().values().size());
 		server.shutdown();
 	}
 	
@@ -39,13 +39,13 @@ class ServidorTest {
 		String  nome = "TesteEdicao";
 		ServidorImpl server = new ServidorImpl(nome);
 		Part peca = new PartImpl("123","PecaTeste","Peça única");
-		server.addPeca(peca);
+		server.getRepository().addPeca(peca);
 		peca = new PartImpl("123","PecaTeste","Peça única Editada");
-		server.addPeca(peca);
+		server.getRepository().addPeca(peca);
 		peca = new PartImpl("124","PecaTeste","Peça única Nova");
-		server.addPeca(peca);
+		server.getRepository().addPeca(peca);
 //		System.out.println(server.getPartes().toString());
-		assertEquals(2, server.getPartes().values().size());
+		assertEquals(2, server.getRepository().getPartes().values().size());
 		server.shutdown();
 	}
 	
@@ -54,13 +54,13 @@ class ServidorTest {
 		String  nome = "TesteBusca";
 		ServidorImpl server = new ServidorImpl(nome);
 		Part peca = new PartImpl("123","PecaTeste1","Peça única");
-		server.addPeca(peca);
+		server.getRepository().addPeca(peca);
 		peca = new PartImpl("124","PecaTeste2","Mais uma Peça única");
-		server.addPeca(peca);
+		server.getRepository().addPeca(peca);
 		peca = new PartImpl("125","PecaTeste3","E Mais outra Peça única Nova");
-		server.addPeca(peca);
+		server.getRepository().addPeca(peca);
 //		System.out.println("Peça encontrada: "+server.getPartes().get("124").toString());
-		assertEquals("124",server.getPartes().get("124").getPartCod());
+		assertEquals("124",server.getRepository().getPartes().get("124").getPartCod());
 		server.shutdown();
 	}
 

@@ -18,7 +18,7 @@ import interfaces.Servidor;
  * Classe que implementa o servidor.
  * <p> Composta por um PartRepository com os conjuntos de partes.
  * **/
-public class ServidorImpl implements Servidor, PartRepository, Part{
+public class ServidorImpl implements Servidor{
 	/**
 	 * 
 	 */
@@ -110,83 +110,6 @@ public class ServidorImpl implements Servidor, PartRepository, Part{
 		this.repository = repository;
 	}
 
-	//============== Repositório =========
-	@Override
-	public Map<String, Part> getPartes() {
-		return this.repository.getPartes();
-	}
-
-
-	@Override
-	public void setPartes(Map<String, Part> partes) {
-		this.repository.setPartes(partes);		
-	}
-
-	//============== Part ===============
-	@Override
-	public String getPartCod() {
-		return peca.getPartCod();
-	}
-
-
-	@Override
-	public void setPartCod(String partCod) {
-		peca.setPartCod(partCod);
-		
-	}
-
-
-	@Override
-	public String getPartNome() {
-		return peca.getPartNome();
-	}
-
-
-	@Override
-	public void setPartNome(String partNome) {
-		peca.setPartNome(partNome);
-	}
-
-
-	@Override
-	public String getPartDesc() {
-		return peca.getPartDesc();
-	}
-
-
-	@Override
-	public void setPartDesc(String partDesc) {
-		peca.setPartDesc(partDesc);
-	}
-
-
-	@Override
-	public void addPeca(Part peca) {
-		repository.addPeca(peca);		
-	}
-
-
-	@Override
-	public Part getPeca(String cod) {
-		return repository.getPeca(cod);
-	}
-
-
-	@Override
-	public String getNomeRepository() {
-		return repository.getNomeRepository();
-	}
-
-
-	@Override
-	public void setNomeRepository(String nomeRepository) {
-		repository.setNomeRepository(nomeRepository);		
-	}
-
-
-
-	
-	
 	
 
 }
