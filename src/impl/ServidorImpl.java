@@ -31,12 +31,7 @@ public class ServidorImpl implements Servidor{
 	 * Repositório de peças do servidor
 	 * **/
 	private PartRepositoryImpl repository;
-	
-	/**
-	 * Objeto peça
-	 * **/
-	private Part peca;
-	
+		
 		
 	/**
 	 * Referência ao RMI registery
@@ -108,15 +103,6 @@ public class ServidorImpl implements Servidor{
 		this.repository.addPeca(peca);
 	}
 	
-	
-	public PartRepositoryImpl getRepository() {
-		return repository;
-	}
-
-	public void setRepository(PartRepositoryImpl repository) {
-		this.repository = repository;
-	}
-
 	
 
 }

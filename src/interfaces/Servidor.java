@@ -28,21 +28,15 @@ public interface Servidor extends Remote{
 	 * **/
 	public Part getPeca(String partCod) throws RemoteException;
 	
-
-	public List<Part> getListPecas() throws RemoteException;
 	
 	/**
-	 * @return repository o repositório de peças do servidor
-	 * @throws RemoteException
-	 * ***/
-	public PartRepository getRepository() throws RemoteException;
-
-	/**
-	 * @param repository repositório de peças 
-	 * @throws RemoteException
-	 * ***/
-	public void setRepository(PartRepositoryImpl repository)throws RemoteException;
-
+	 * Retorna a lista de pecas.
+	 *
+	 * @return a lista de pecas
+	 * @throws RemoteException the remote exception
+	 */
+	public List<Part> getListPecas() throws RemoteException;
+	
 
 	/**
 	 * Adiciona uma nova peça ao repositório
