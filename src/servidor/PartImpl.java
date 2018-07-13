@@ -131,7 +131,9 @@ public class PartImpl implements Part {
 	
 	@Override
 	public int hashCode() {
-		return (int) this.getPartCod().hashCode() ^ this.getPartNome().hashCode(); 
+		return (int) this.getPartCod().hashCode() 
+				^ this.getPartNome().hashCode()
+				^ this.getPartDesc().hashCode(); 
 	}
 	
 	

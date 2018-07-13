@@ -54,7 +54,34 @@ public class SubPartImpl implements SubPart{
 	public void setSubPartDesc(String partDesc) {
 		this.subPartDesc = partDesc;
 	}
-
+	
+	
+	@Override
+	public String toString() {
+		return "[Cod.: "+this.subPartCod+
+				", Nome: "+this.subPartNome+
+				", Desc.: "+ this.subPartDesc+ "]";
+	}
+	
+	
+	@Override
+	public boolean equals(Object other){
+		// se ambos possuem o mesmo endereço, então são iguais
+		if(this == other) return true;
+		// se não pertencem a mesma classe então são diferentes
+		if(!(other instanceof SubPartImpl)) return false; 
+		//agora podemos converter para a classe
+		SubPartImpl otherObj = (SubPartImpl)other; 
+		// se possuem o mesmo código, então são iguais
+		return this.subPartCod.equals(otherObj.getSubPartCod());
+	}
+	
+	@Override
+	public int hashCode() {
+		return (int) this.getSubPartCod().hashCode() 
+				^ this.getSubPartNome().hashCode()
+				^ this.getSubPartDesc().hashCode(); 
+	}
 
 
 }
