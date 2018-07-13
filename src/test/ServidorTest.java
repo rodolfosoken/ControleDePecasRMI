@@ -5,8 +5,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import interfaces.Part;
+import interfaces.SubPart;
 import servidor.PartImpl;
 import servidor.ServidorImpl;
+import servidor.SubPartImpl;
 
 class ServidorTest {
 
@@ -44,8 +46,11 @@ class ServidorTest {
 		server.getRepository().addPeca(peca);
 		peca = new PartImpl("124","PecaTeste","Peça única Nova");
 		server.getRepository().addPeca(peca);
+		peca = new PartImpl("125", "PecaComposta", "Peça composta");
+		peca.getComponentes().put(new SubPartImpl("1", "Componente1", "Este é um componente"), 1);
+		server.getRepository().addPeca(peca);
 		System.out.println(server.getRepository().getPartes().toString());
-		assertEquals(2, server.getRepository().getPartes().values().size());
+		assertEquals(3, server.getRepository().getPartes().values().size());
 		server.shutdown();
 	}
 	

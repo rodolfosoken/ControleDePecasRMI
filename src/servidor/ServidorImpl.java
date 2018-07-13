@@ -7,10 +7,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Map;
 
 import interfaces.Part;
-import interfaces.PartRepository;
 import interfaces.Servidor;
 
 
@@ -58,8 +56,8 @@ public class ServidorImpl implements Servidor{
 		try {
 			Servidor stub = (Servidor) UnicastRemoteObject.exportObject(this,0);
 			reg = LocateRegistry.getRegistry();
-			reg.bind(servidorNome, stub);
-			System.out.println("Servidor "+servidorNome+" iniciado.");
+			reg.bind(this.servidorNome, stub);
+//			System.out.println("Servidor "+servidorNome+" iniciado.");
 		} catch (RemoteException e) {
 			System.out.println("Erro ao iniciar servidor: "+servidorNome+" verifique o rmiregistry.");
 			reg = null;
@@ -73,10 +71,8 @@ public class ServidorImpl implements Servidor{
 	
 	public void shutdown() {
 		try {
-			if(reg!=null) {
-				reg.unbind(this.servidorNome);
-				System.out.println("Servidor: "+servidorNome+" finalizado.");
-			}
+			reg = LocateRegistry.getRegistry();
+			reg.unbind(this.servidorNome);
 		} catch (AccessException e) {
 			System.out.println("Erro ao finalizar o servidor: "+this.servidorNome);
 			e.printStackTrace();

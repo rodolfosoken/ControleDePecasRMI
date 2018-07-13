@@ -58,9 +58,9 @@ public class SubPartImpl implements SubPart{
 	
 	@Override
 	public String toString() {
-		return "[Cod.: "+this.subPartCod+
-				", Nome: "+this.subPartNome+
-				", Desc.: "+ this.subPartDesc+ "]";
+		return "[Cod.Comp.: "+this.subPartCod+
+				", Nome Comp.: "+this.subPartNome+
+				", Desc.Comp.: "+ this.subPartDesc+ "]";
 	}
 	
 	

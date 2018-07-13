@@ -3,6 +3,8 @@ package interfaces;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import servidor.SubPartImpl;
+
 /**
  * Interface que especifica os métodos de uma peça (Part)
  * 
@@ -61,12 +63,24 @@ public interface Part extends Serializable{
 	 * Componentes da peça
 	 * @return componentes da peça
 	 * **/
-	public HashMap<SubPart, Integer> getComponentes();
+	public HashMap<SubPartImpl, Integer> getComponentes();
 
 	
 	/**
 	 * @param componentes novos componentes da peça
 	 * **/
-	public void setComponentes(HashMap<SubPart, Integer> componentes);
+	public void setComponentes(HashMap<SubPartImpl, Integer> componentes);
+	
+	/**
+	 * Indica se a peça é primitiva, 
+	 * verificando se componentes está vazio
+	 * @return se a peça é ou não primitiva
+	 * **/
+	public boolean isPrimitiva();
+	
+	/**
+	 * @param isPrimitiva flag que indica se a peça é primitiva
+	 * **/
+	public void setPrimitiva(boolean isPrimitiva);
 
 }

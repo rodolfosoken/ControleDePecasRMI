@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import interfaces.Part;
-import interfaces.SubPart;
 
 /**
  * Classe que Implementa a peça (Part)
@@ -26,7 +25,10 @@ public class PartImpl implements Part {
 	private String partDesc;
 	
 	//Componentes da peça
-	private HashMap<SubPart, Integer> componentes;
+	private HashMap<SubPartImpl, Integer> componentes;
+	
+	//Flag
+	private boolean isPrimitiva;
 	
 	
 	/**
@@ -52,6 +54,7 @@ public class PartImpl implements Part {
 		this.partNome = partNome;
 		this.partDesc = partDesc;
 		this.componentes = new HashMap<>();
+		this.isPrimitiva = true;
 	}
 	 
 	 
@@ -62,16 +65,26 @@ public class PartImpl implements Part {
 	 * @param partNome o nome da peça
 	 * @param partDesc a descrição da peça
 	 */
-	public PartImpl(String partCod, String partNome, String partDesc, HashMap<SubPart, Integer> componentes) {
+	public PartImpl(String partCod, String partNome, 
+			String partDesc, HashMap<SubPartImpl, Integer> componentes) {
 		this.partCod = partCod;
 		this.partNome = partNome;
 		this.partDesc = partDesc;
 		this.componentes = componentes;
+		this.isPrimitiva = this.isPrimitiva();
 	}
 
 	@Override
 	public String toString() {
-		return "[Cod.: "+this.partCod+", Nome: "+this.partNome+", Desc.: "+ this.partDesc+ "]";
+		if(isPrimitiva())
+			return "[Cod.: "+this.partCod+
+					", Nome: "+this.partNome+
+					", Desc.: "+ this.partDesc+ "]";
+		
+		return"[Cod.: "+this.partCod+
+				", Nome: "+this.partNome+
+				", Desc.: "+ this.partDesc+
+				", Compo.: "+this.componentes.toString() + "]";
 	}
 	
 	@Override
@@ -109,13 +122,28 @@ public class PartImpl implements Part {
 	}
 
 	@Override
-	public HashMap<SubPart, Integer> getComponentes() {
+	public HashMap<SubPartImpl, Integer> getComponentes() {
 		return componentes;
 	}
 
 	@Override
-	public void setComponentes(HashMap<SubPart, Integer> componentes) {
+	public void setComponentes(HashMap<SubPartImpl, Integer> componentes) {
 		this.componentes = componentes;
+	}
+	
+	
+	@Override
+	public boolean isPrimitiva() {
+		if(this.componentes.isEmpty())
+			this.isPrimitiva = true;
+		else
+			this.isPrimitiva = false;
+		return isPrimitiva;
+	}
+
+	@Override
+	public void setPrimitiva(boolean isPrimitiva) {
+		this.isPrimitiva = isPrimitiva;
 	}
 
 	@Override
