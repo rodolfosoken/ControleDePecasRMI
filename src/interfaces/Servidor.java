@@ -28,6 +28,14 @@ public interface Servidor extends Remote{
 	 * ***/
 	public void setRepository(PartRepositoryImpl repository)throws RemoteException;
 	
-	
+	/**
+	 * @return peca 
+	 * **/
+	public Part getPeca() throws RemoteException;
+
+	/**
+	 * @param peca a nova peça 
+	 * **/
+	public void setPeca(Part peca)throws RemoteException ;
 
 }

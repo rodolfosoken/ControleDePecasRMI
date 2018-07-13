@@ -1,25 +1,19 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.rmi.RemoteException;
 
 import org.junit.jupiter.api.Test;
 
 import interfaces.Part;
-import interfaces.SubPart;
 import servidor.PartImpl;
 import servidor.ServidorImpl;
 import servidor.SubPartImpl;
 
 class ServidorTest {
 
-	/**
-	 * Teste de registro
-	 * **/
-	@Test
-	void testBind() {
-		ServidorImpl server = new ServidorImpl("TesteBind");
-		server.shutdown();
-	}
 	
 	
 	/**
@@ -28,7 +22,13 @@ class ServidorTest {
 	@Test
 	void testAdd() {
 		String  nome = "TesteAdd";
-		ServidorImpl server = new ServidorImpl(nome);
+		ServidorImpl server = null;
+		try {
+			server = new ServidorImpl(nome);
+		} catch (RemoteException e) {
+			System.out.println(e.getMessage());
+			fail("Erro ao conectar");
+		}
 		Part peca = new PartImpl("123","PecaTeste","Peça única");
 		server.getRepository().addPeca(peca);
 //		System.out.println(server.getPartes().toString());
@@ -39,7 +39,13 @@ class ServidorTest {
 	@Test
 	void testEdicao() {
 		String  nome = "TesteEdicao";
-		ServidorImpl server = new ServidorImpl(nome);
+		ServidorImpl server = null;
+		try {
+			server = new ServidorImpl(nome);
+		} catch (RemoteException e) {
+			System.out.println(e.getMessage());
+			fail("Erro ao conectar");
+		}
 		Part peca = new PartImpl("123","PecaTeste","Peça única");
 		server.getRepository().addPeca(peca);
 		peca = new PartImpl("123","PecaTeste","Peça única Editada");
@@ -57,7 +63,13 @@ class ServidorTest {
 	@Test
 	void testBusca() {
 		String  nome = "TesteBusca";
-		ServidorImpl server = new ServidorImpl(nome);
+		ServidorImpl server = null;
+		try {
+			server = new ServidorImpl(nome);
+		} catch (RemoteException e) {
+			System.out.println(e.getMessage());
+			fail("Erro ao conectar");
+		}
 		Part peca = new PartImpl("123","PecaTeste1","Peça única");
 		server.getRepository().addPeca(peca);
 		peca = new PartImpl("124","PecaTeste2","Mais uma Peça única");

@@ -17,10 +17,6 @@ import interfaces.Servidor;
  * <p> Composta por um PartRepository com os conjuntos de partes.
  * **/
 public class ServidorImpl implements Servidor{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 
 	/**
@@ -49,7 +45,7 @@ public class ServidorImpl implements Servidor{
 	 * Cria um novo servidor com um repositório de peças.
 	 * @param servidorNome o nome do servidor
 	 * **/
-	public ServidorImpl(String servidorNome) {
+	public ServidorImpl(String servidorNome)throws RemoteException {
 		this.servidorNome = servidorNome;
 		this.repository = new PartRepositoryImpl("repos_"+servidorNome);
 		
@@ -58,10 +54,7 @@ public class ServidorImpl implements Servidor{
 			reg = LocateRegistry.getRegistry();
 			reg.bind(this.servidorNome, stub);
 //			System.out.println("Servidor "+servidorNome+" iniciado.");
-		} catch (RemoteException e) {
-			System.out.println("Erro ao iniciar servidor: "+servidorNome+" verifique o rmiregistry.");
-			reg = null;
-			System.out.println(e.getLocalizedMessage());;
+		
 		} catch (AlreadyBoundException e) {
 			System.out.println("Stub do servidor: "+servidorNome+" já registrado.");
 			e.printStackTrace();
@@ -105,6 +98,18 @@ public class ServidorImpl implements Servidor{
 	public void setRepository(PartRepositoryImpl repository) {
 		this.repository = repository;
 	}
+
+	@Override
+	public Part getPeca() {
+		return peca;
+	}
+
+	@Override
+	public void setPeca(Part peca) {
+		this.peca = peca;
+	}
+	
+	
 
 	
 
