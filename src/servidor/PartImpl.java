@@ -1,7 +1,6 @@
 package servidor;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 import interfaces.Part;
 
@@ -30,6 +29,9 @@ public class PartImpl implements Part {
 	//Flag
 	private boolean isPrimitiva;
 	
+	//Faz a contagem de peças para criar o SKU
+	private static int numSKU = 0;
+	
 	
 	/**
 	 * Gera uma nova peça com um código aleatório.
@@ -37,10 +39,11 @@ public class PartImpl implements Part {
 	 * @param descricao a descrição da peça
 	 */
 	 public PartImpl(String nome, String descricao){
-		this.partCod = UUID.randomUUID().toString();
+		this.partCod = "P"+numSKU++;
 		this.partNome = nome;
 		this.partDesc = descricao;
 		this.componentes = new HashMap<>();
+		this.isPrimitiva();
 	}
 	
 	/**
@@ -49,12 +52,28 @@ public class PartImpl implements Part {
 	 * @param partNome o nome da peça
 	 * @param partDesc a descrição da peça
 	 */
+	 public PartImpl(String partNome, String partDesc, 
+			 HashMap<SubPartImpl, Integer> componentes) {
+		 this.partCod = "P"+numSKU++;
+		this.partNome = partNome;
+		this.partDesc = partDesc;
+		this.componentes = componentes;
+		this.isPrimitiva();
+	}
+	 
+	/**
+	 * Gera uma nova peça com um código especificado.
+	 * @param partCod
+	 * @param partNome o nome da peça
+	 * @param partDesc a descrição da peça
+	 */
 	 public PartImpl(String partCod, String partNome, String partDesc) {
+		 numSKU++;
 		this.partCod = partCod;
 		this.partNome = partNome;
 		this.partDesc = partDesc;
 		this.componentes = new HashMap<>();
-		this.isPrimitiva = true;
+		this.isPrimitiva();
 	}
 	 
 	 
@@ -67,21 +86,22 @@ public class PartImpl implements Part {
 	 */
 	public PartImpl(String partCod, String partNome, 
 			String partDesc, HashMap<SubPartImpl, Integer> componentes) {
+		numSKU++;
 		this.partCod = partCod;
 		this.partNome = partNome;
 		this.partDesc = partDesc;
 		this.componentes = componentes;
-		this.isPrimitiva = this.isPrimitiva();
+		this.isPrimitiva();
 	}
 
 	@Override
 	public String toString() {
 		if(isPrimitiva())
-			return "[Cod.: "+this.partCod+
+			return "\n[Cod.: "+this.partCod+
 					", Nome: "+this.partNome+
 					", Desc.: "+ this.partDesc+ "]";
 		
-		return"[Cod.: "+this.partCod+
+		return"\n[Cod.: "+this.partCod+
 				", Nome: "+this.partNome+
 				", Desc.: "+ this.partDesc+
 				", Compo.: "+this.componentes.toString() + "]";
@@ -129,6 +149,7 @@ public class PartImpl implements Part {
 	@Override
 	public void setComponentes(HashMap<SubPartImpl, Integer> componentes) {
 		this.componentes = componentes;
+		this.isPrimitiva();
 	}
 	
 	

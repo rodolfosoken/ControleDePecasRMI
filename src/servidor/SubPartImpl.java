@@ -14,12 +14,31 @@ public class SubPartImpl implements SubPart{
 	//Nome do subcomponente
 	private String subPartNome;
 	//Descrição do subcomponente
-	private String subPartDesc; 
+	private String subPartDesc;
+	//Faz a contagem de peças para criar o SKU
+	private static int numSKU = 0;
+	
 	
 	/**
 	 * Cria um novo componente
+	 *
+	 * @param subPartNome o nome do componente
+	 * @param subPartDesc a descrição do componente
+	 */
+	public SubPartImpl(String subPartNome, String subPartDesc) {
+		this.subPartCod = "SP"+numSKU++;
+		this.subPartNome = subPartNome;
+		this.subPartDesc = subPartDesc;
+	}
+	
+	/**
+	 * Cria um novo componente com código especificado
+	 * @param subPartCod o código do componente
+	 * @param subPartNome o nome do componente
+	 * @param subPartDesc a descrição do componente
 	 * **/
 	public SubPartImpl(String subPartCod, String subPartNome, String subPartDesc) {
+		numSKU++;
 		this.subPartCod = subPartCod;
 		this.subPartNome = subPartNome;
 		this.subPartDesc = subPartDesc;
@@ -58,7 +77,7 @@ public class SubPartImpl implements SubPart{
 	
 	@Override
 	public String toString() {
-		return "[Cod.Comp.: "+this.subPartCod+
+		return "\n[Cod.Comp.: "+this.subPartCod+
 				", Nome Comp.: "+this.subPartNome+
 				", Desc.Comp.: "+ this.subPartDesc+ "]";
 	}

@@ -46,14 +46,15 @@ class ServidorTest {
 			System.out.println(e.getMessage());
 			fail("Erro ao conectar");
 		}
-		Part peca = new PartImpl("123","PecaTeste","Peça única");
+		Part peca = new PartImpl("PecaTeste","Peça única");
 		server.getRepository().addPeca(peca);
-		peca = new PartImpl("123","PecaTeste","Peça única Editada");
+		server.getRepository().getPeca(peca.getPartCod()).setPartDesc("Peça única editada");
+		peca = new PartImpl("PecaTeste","Peça única Nova");
 		server.getRepository().addPeca(peca);
-		peca = new PartImpl("124","PecaTeste","Peça única Nova");
-		server.getRepository().addPeca(peca);
-		peca = new PartImpl("125", "PecaComposta", "Peça composta");
-		peca.getComponentes().put(new SubPartImpl("1", "Componente1", "Este é um componente"), 1);
+		peca = new PartImpl("PecaComposta", "Peça composta");
+		peca.getComponentes().put(new SubPartImpl("Componente1", "Este é um componente"), 1);
+		peca.getComponentes().put(new SubPartImpl("Componente2", "Este é um componente"), 3);
+		System.out.println(peca.getComponentes().get(new SubPartImpl("SP1", "Componente2", "Este é um componente")).toString());
 		server.getRepository().addPeca(peca);
 		System.out.println(server.getRepository().getPartes().toString());
 		assertEquals(3, server.getRepository().getPartes().values().size());
