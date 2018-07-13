@@ -1,35 +1,58 @@
 package interfaces;
 
-import servidor.MultPartImpl;
+import java.io.Serializable;
 
 /**
- * Interface que especifica os métodos das subParts
+ * Interface que especifica os métodos dos subcomponente
  * 
  * ***/
-public interface SubPart extends Part {
+public interface SubPart extends Serializable {
 	
 	/**
-	 * Recupera a peça de origem
-	 * @return a peça de origem
-	 */
-	public MultPartImpl getSrcPart() ;
-
-	
-	/**
-	 * Atribui uma nova peça de origem
+	 * Código do subcomponente .
 	 *
-	 * @param srcPart a nova peça de origem
+	 * @return o código da subcomponente
 	 */
-	public void setSrcPart(MultPartImpl srcPart) ;
-	
-	/**
-	 * @return qtd Qauntidade das subpeças que existem na peça original 
-	 * ***/
-	public int getQtd();
+	public String getSubPartCod();
 
 	/**
-	 * @param qtd quantidade de subpeças que existem na peça original
-	 * ***/
-	public void setQtd(int qtd) ;
+	 * Código do subcomponente
+	 *
+	 * @param subPartCod o novo código da subcomponente
+	 */
+	public void setSubPartCod(String subPartCod);
+
+
+	/**
+	 * Nome do subcomponente
+	 *
+	 * @return o nome do subcomponente
+	 */
+	public String getSubPartNome();
+
+
+	/**
+	 * Nome do subcomponente
+	 *
+	 * @param partNome o novo nome do subcomponente
+	 */
+	public void setSubPartNome(String subPartNome) ;
+
+
+	/**
+	 * Descrição do subcomponente
+	 *
+	 * @return a descrição do subcomponente
+	 */
+	public String getSubPartDesc() ;
+
+
+	/**
+	 * Descrição do subcomponente
+	 *
+	 * @param partDesc a descrição do subcomponente
+	 */
+	public void setSubPartDesc(String partDesc);
+
 
 }

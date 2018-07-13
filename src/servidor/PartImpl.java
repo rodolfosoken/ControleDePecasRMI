@@ -1,5 +1,6 @@
 package servidor;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import interfaces.Part;
@@ -23,10 +24,12 @@ public class PartImpl implements Part {
 	//Descriçao da peça
 	private String partDesc;
 	
+	//Componentes da peça
+	private HashMap<SubPartImpl, Integer> componentes;
 	
 	
 	/**
-	 * Gera uma nova peça com os parâmetros.
+	 * Gera uma nova peça com um código aleatório.
 	 * @param nome o nome da peça
 	 * @param descricao a descrição da peça
 	 */
@@ -34,10 +37,11 @@ public class PartImpl implements Part {
 		this.partCod = UUID.randomUUID().toString();
 		this.partNome = nome;
 		this.partDesc = descricao;
+		this.componentes = new HashMap<>();
 	}
 	
 	/**
-	 * Gera uma nova peça com os parâmetros.
+	 * Gera uma nova peça com um código especificado.
 	 * @param partCod
 	 * @param partNome o nome da peça
 	 * @param partDesc a descrição da peça
@@ -46,8 +50,23 @@ public class PartImpl implements Part {
 		this.partCod = partCod;
 		this.partNome = partNome;
 		this.partDesc = partDesc;
+		this.componentes = new HashMap<>();
 	}
+	 
+	 
 
+	/**
+	 * Gera uma nova peça com um conjunto de componentes definido.
+	 * @param partCod
+	 * @param partNome o nome da peça
+	 * @param partDesc a descrição da peça
+	 */
+	public PartImpl(String partCod, String partNome, String partDesc, HashMap<SubPartImpl, Integer> subComponentes) {
+		this.partCod = partCod;
+		this.partNome = partNome;
+		this.partDesc = partDesc;
+		this.componentes = subComponentes;
+	}
 
 	@Override
 	public String toString() {
@@ -88,6 +107,15 @@ public class PartImpl implements Part {
 		this.partDesc = partDesc;
 	}
 
+	@Override
+	public HashMap<SubPartImpl, Integer> getComponentes() {
+		return componentes;
+	}
+
+	@Override
+	public void setComponentes(HashMap<SubPartImpl, Integer> componentes) {
+		this.componentes = componentes;
+	}
 
 	@Override
 	public boolean equals(Object other){
@@ -101,12 +129,13 @@ public class PartImpl implements Part {
 		return this.partCod.equals(otherObj.getPartCod());
 	}
 	
-	//este método será utilizado em conjunto com o 
-	//equals para localizar os objs em uma coleção 
 	@Override
 	public int hashCode() {
-		return (int) this.getPartCod().hashCode(); //utiliza apenas o codigo
+		return (int) this.getPartCod().hashCode() ^ this.getPartNome().hashCode(); 
 	}
+	
+	
+	
 
 		
 

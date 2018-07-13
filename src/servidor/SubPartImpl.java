@@ -3,70 +3,58 @@ package servidor;
 import interfaces.SubPart;
 
 /**
- * Classe que implementa uma peça(Part) que faz parte de outras peças (Multpart)
- * *.
+ * Classe que implementa um subcomponente que faz parte de outra peça
  */
-public class SubPartImpl extends PartImpl implements SubPart{
-
-
-	/** The Constant serialVersionUID. */
+public class SubPartImpl implements SubPart{
+	
+	/** A constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
-	/**Referencia para a peça de origem */
-	private MultPartImpl srcPart;
-	
-	/** Quantidade de subpeças que existem na peça de origem */
-	private int qtd;
-	
-	/**
-	 * Gera uma subpart com um código existente.
-	 *
-	 * @param partCod o código da parte 
-	 * @param partNome o nome da parte
-	 * @param partDesc a descrição da parte
-	 * @param srcPart a peça de origem
-	 * @param qtd quantidade de subpeças que exitem na peça original
-	 */
-	SubPartImpl(String partCod, String partNome, String partDesc, MultPartImpl srcPart, int qtd) {
-		super(partCod, partNome, partDesc);
-		this.srcPart = srcPart;
-		this.qtd = qtd;
-	}
+	//Código do componente
+	private String subPartCod;
+	//Nome do subcomponente
+	private String subPartNome;
+	//Descrição do subcomponente
+	private String subPartDesc; 
 	
 	/**
-	 * Gera uma subPart com um novo código.
-	 *
-	 * @param partNome o nome da parte
-	 * @param partDesc a descrição da parte
-	 * @param srcPart a peça de origem
-	 * @param qtd quantidade de subpeças que exitem na peça original
-	 */
-	SubPartImpl(String partNome, String partDesc, MultPartImpl srcPart, int qtd) {
-		super(partNome, partDesc);
-		this.srcPart = srcPart;
-		this.qtd = qtd;
+	 * Cria um novo componente
+	 * **/
+	public SubPartImpl(String subPartCod, String subPartNome, String subPartDesc) {
+		this.subPartCod = subPartCod;
+		this.subPartNome = subPartNome;
+		this.subPartDesc = subPartDesc;
 	}
 
 	@Override
-	public MultPartImpl getSrcPart() {
-		return srcPart;
-	}
-
-
-	@Override
-	public void setSrcPart(MultPartImpl srcPart) {
-		this.srcPart = srcPart;
-	}
-	
-	@Override
-	public int getQtd() {
-		return qtd;
+	public String getSubPartCod() {
+		return this.subPartCod;
 	}
 
 	@Override
-	public void setQtd(int qtd) {
-		this.qtd = qtd;
+	public void setSubPartCod(String subPartCod) {
+		this.subPartCod = subPartCod;
 	}
+
+	@Override
+	public String getSubPartNome() {
+		return this.subPartNome;
+	}
+
+	@Override
+	public void setSubPartNome(String subPartNome) {
+		this.subPartNome = subPartNome;
+	}
+
+	@Override
+	public String getSubPartDesc() {
+		return this.subPartDesc;
+	}
+
+	@Override
+	public void setSubPartDesc(String partDesc) {
+		this.subPartDesc = partDesc;
+	}
+
 
 
 }
