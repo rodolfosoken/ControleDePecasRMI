@@ -3,8 +3,6 @@ package interfaces;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import servidor.SubPartImpl;
-
 /**
  * Interface que especifica os métodos de uma peça (Part)
  * 
@@ -63,12 +61,12 @@ public interface Part extends Serializable{
 	 * Componentes da peça
 	 * @return componentes da peça
 	 * **/
-	public HashMap<SubPartImpl, Integer> getComponentes();
+	public HashMap<SubPart, Integer> getComponentes();
 
 	
 	/**
 	 * @param componentes novos componentes da peça
 	 * **/
-	public void setComponentes(HashMap<SubPartImpl, Integer> componentes);
+	public void setComponentes(HashMap<SubPart, Integer> componentes);
 
 }

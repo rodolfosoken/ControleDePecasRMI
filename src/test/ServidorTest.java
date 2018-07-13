@@ -44,7 +44,7 @@ class ServidorTest {
 		server.getRepository().addPeca(peca);
 		peca = new PartImpl("124","PecaTeste","Peça única Nova");
 		server.getRepository().addPeca(peca);
-//		System.out.println(server.getPartes().toString());
+		System.out.println(server.getRepository().getPartes().toString());
 		assertEquals(2, server.getRepository().getPartes().values().size());
 		server.shutdown();
 	}

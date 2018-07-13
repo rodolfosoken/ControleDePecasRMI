@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import interfaces.Part;
+import interfaces.SubPart;
 
 /**
  * Classe que Implementa a peça (Part)
@@ -25,7 +26,7 @@ public class PartImpl implements Part {
 	private String partDesc;
 	
 	//Componentes da peça
-	private HashMap<SubPartImpl, Integer> componentes;
+	private HashMap<SubPart, Integer> componentes;
 	
 	
 	/**
@@ -61,11 +62,11 @@ public class PartImpl implements Part {
 	 * @param partNome o nome da peça
 	 * @param partDesc a descrição da peça
 	 */
-	public PartImpl(String partCod, String partNome, String partDesc, HashMap<SubPartImpl, Integer> subComponentes) {
+	public PartImpl(String partCod, String partNome, String partDesc, HashMap<SubPart, Integer> componentes) {
 		this.partCod = partCod;
 		this.partNome = partNome;
 		this.partDesc = partDesc;
-		this.componentes = subComponentes;
+		this.componentes = componentes;
 	}
 
 	@Override
@@ -108,12 +109,12 @@ public class PartImpl implements Part {
 	}
 
 	@Override
-	public HashMap<SubPartImpl, Integer> getComponentes() {
+	public HashMap<SubPart, Integer> getComponentes() {
 		return componentes;
 	}
 
 	@Override
-	public void setComponentes(HashMap<SubPartImpl, Integer> componentes) {
+	public void setComponentes(HashMap<SubPart, Integer> componentes) {
 		this.componentes = componentes;
 	}
 
