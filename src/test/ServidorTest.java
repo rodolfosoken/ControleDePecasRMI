@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import impl.PartImpl;
 import impl.ServidorImpl;
-import impl.SubPartImpl;
 import interfaces.Part;
 
 class ServidorTest {
@@ -52,9 +51,9 @@ class ServidorTest {
 		peca = new PartImpl("PecaTeste","Peça única Nova");
 		server.addPeca(peca);
 		peca = new PartImpl("PecaComposta", "Peça composta");
-		peca.getComponentes().put(new SubPartImpl("Componente1", "Este é um componente"), 1);
-		peca.getComponentes().put(new SubPartImpl("Componente2", "Este é outro componente"), 3);
-		System.out.println(peca.getComponentes().get(new SubPartImpl("SP1", "Componente2", "Este é outro componente")).toString());
+		peca.getComponentes().put(new PartImpl("Componente1", "Este é um componente"), 1);
+		peca.getComponentes().put(new PartImpl("Componente2", "Este é outro componente"), 3);
+//		System.out.println(peca.getComponentes().get(new PartImpl("P8", "Componente2", "Este é outro componente")).toString());
 		server.addPeca(peca);
 		System.out.println(server.getListPecas().toString());
 		assertEquals(3, server.getListPecas().size());

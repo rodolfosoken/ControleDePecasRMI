@@ -24,7 +24,7 @@ public class PartImpl implements Part {
 	private String partDesc;
 	
 	//Componentes da peça
-	private HashMap<SubPartImpl, Integer> componentes;
+	private HashMap<PartImpl, Integer> componentes;
 	
 	//Flag
 	private boolean isPrimitiva;
@@ -53,7 +53,7 @@ public class PartImpl implements Part {
 	 * @param partDesc a descrição da peça
 	 */
 	 public PartImpl(String partNome, String partDesc, 
-			 HashMap<SubPartImpl, Integer> componentes) {
+			 HashMap<PartImpl, Integer> componentes) {
 		 this.partCod = "P"+numSKU++;
 		this.partNome = partNome;
 		this.partDesc = partDesc;
@@ -85,7 +85,7 @@ public class PartImpl implements Part {
 	 * @param partDesc a descrição da peça
 	 */
 	public PartImpl(String partCod, String partNome, 
-			String partDesc, HashMap<SubPartImpl, Integer> componentes) {
+			String partDesc, HashMap<PartImpl, Integer> componentes) {
 		numSKU++;
 		this.partCod = partCod;
 		this.partNome = partNome;
@@ -142,12 +142,12 @@ public class PartImpl implements Part {
 	}
 
 	@Override
-	public HashMap<SubPartImpl, Integer> getComponentes() {
+	public HashMap<PartImpl, Integer> getComponentes() {
 		return componentes;
 	}
 
 	@Override
-	public void setComponentes(HashMap<SubPartImpl, Integer> componentes) {
+	public void setComponentes(HashMap<PartImpl, Integer> componentes) {
 		this.componentes = componentes;
 		this.isPrimitiva();
 	}
