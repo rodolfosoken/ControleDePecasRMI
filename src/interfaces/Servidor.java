@@ -3,7 +3,7 @@ package interfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import servidor.PartRepositoryImpl;
+import impl.PartRepositoryImpl;
 
 public interface Servidor extends Remote{
 	

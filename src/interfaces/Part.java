@@ -3,7 +3,7 @@ package interfaces;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import servidor.SubPartImpl;
+import impl.SubPartImpl;
 
 /**
  * Interface que especifica os métodos de uma peça (Part)

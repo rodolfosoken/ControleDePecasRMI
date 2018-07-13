@@ -7,10 +7,10 @@ import java.rmi.RemoteException;
 
 import org.junit.jupiter.api.Test;
 
+import impl.PartImpl;
+import impl.ServidorImpl;
+import impl.SubPartImpl;
 import interfaces.Part;
-import servidor.PartImpl;
-import servidor.ServidorImpl;
-import servidor.SubPartImpl;
 
 class ServidorTest {
 

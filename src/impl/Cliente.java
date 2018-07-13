@@ -1,4 +1,4 @@
-package cliente;
+package impl;
 
 /**
  * Classe que representa um cliente e terá a implementação

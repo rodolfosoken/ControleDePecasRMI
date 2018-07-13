@@ -1,4 +1,4 @@
-package servidor;
+package impl;
 
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
