@@ -7,6 +7,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 
 import interfaces.Part;
 import interfaces.Servidor;
@@ -61,7 +63,7 @@ public class ServidorImpl implements Servidor{
 		}
 	}
 	
-	
+	@Override
 	public void shutdown() {
 		try {
 			reg = LocateRegistry.getRegistry();
@@ -89,27 +91,31 @@ public class ServidorImpl implements Servidor{
 		this.servidorNome = servidorNome;
 	}
 
+
 	@Override
+	public Part getPeca(String partCod) {
+		return this.repository.getPeca(partCod);
+	}
+	
+	@Override
+	public List<Part> getListPecas(){	
+		return new ArrayList<>(repository.getPartes().values());
+	}
+
+	
+	@Override
+	public void addPeca(Part peca) {
+		this.repository.addPeca(peca);
+	}
+	
+	
 	public PartRepositoryImpl getRepository() {
 		return repository;
 	}
 
-	@Override
 	public void setRepository(PartRepositoryImpl repository) {
 		this.repository = repository;
 	}
-
-	@Override
-	public Part getPeca() {
-		return peca;
-	}
-
-	@Override
-	public void setPeca(Part peca) {
-		this.peca = peca;
-	}
-	
-	
 
 	
 
