@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
@@ -53,40 +54,40 @@ public class ServidorGui extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblServidorStatus = new JLabel("Servidor Status: ");
 		lblServidorStatus.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblServidorStatus.setBounds(10, 11, 131, 36);
 		contentPane.add(lblServidorStatus);
-		
+
 		JLabel lblStatus = new JLabel("Offline");
 		lblStatus.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblStatus.setBounds(137, 17, 60, 27);
 		contentPane.add(lblStatus);
-		
+
 		nomeField = new JTextField();
 		nomeField.setText("S1");
 		nomeField.setToolTipText("Nome do Servidor");
 		nomeField.setBounds(160, 77, 219, 36);
 		contentPane.add(nomeField);
 		nomeField.setColumns(10);
-		
+
 		JLabel lblNomeDoServidor = new JLabel("Nome do Servidor:");
 		lblNomeDoServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNomeDoServidor.setBounds(10, 85, 117, 17);
 		contentPane.add(lblNomeDoServidor);
-		
+
 		JButton btnStop = new JButton("Parar Servidor");
+		btnStop.setEnabled(false);
 		JButton btnStart = new JButton("Inciar Servidor");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
-					if(nomeField.getText().toString().length() == 0)
-					 JOptionPane.showMessageDialog(contentPane,
-						        "Campo nome não pode estar vazio!", //mensagem
-						        "Erro ao iniciar o servidor", // titulo da janela 
-						        JOptionPane.ERROR_MESSAGE);
+					if (nomeField.getText().toString().length() == 0)
+						JOptionPane.showMessageDialog(contentPane, "Campo nome não pode estar vazio!", // mensagem
+								"Erro ao iniciar o servidor", // titulo da janela
+								JOptionPane.ERROR_MESSAGE);
 					else {
 						servidor = new Servidor(nomeField.getText());
 						nomeField.setEnabled(false);
@@ -94,30 +95,45 @@ public class ServidorGui extends JFrame {
 						btnStop.setEnabled(true);
 						lblStatus.setText("Online");
 					}
-					
+
 				} catch (RemoteException e) {
-					JOptionPane.showMessageDialog(contentPane,
-					        "Não foi possível iniciar o servidor.", //mensagem
-					        "Erro ao iniciar o servidor: " + e.getMessage(), // titulo da janela 
-					        JOptionPane.ERROR_MESSAGE);
-				}catch (AlreadyBoundException e) {
-					JOptionPane.showMessageDialog(contentPane,
-					        "Servidor já está registrado", //mensagem
-					        "Erro ao iniciar o servidor: " + e.getMessage(), // titulo da janela 
-					        JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(contentPane, "Não foi possível iniciar o servidor.", // mensagem
+							"Erro ao iniciar o servidor: " + e.getMessage(), // titulo da janela
+							JOptionPane.ERROR_MESSAGE);
+				} catch (AlreadyBoundException e) {
+					JOptionPane.showMessageDialog(contentPane, "Servidor já está registrado", // mensagem
+							"Erro ao iniciar o servidor: " + e.getMessage(), // titulo da janela
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		btnStart.setBounds(40, 178, 136, 72);
 		contentPane.add(btnStart);
-		
+
 		btnStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				servidor.shutdown();
-				nomeField.setEnabled(true);
-				btnStart.setEnabled(true);
-				btnStop.setEnabled(false);
-				lblStatus.setText("Offline");
+				if (servidor != null) {
+					try {
+						servidor.shutdown();
+					} catch (RemoteException e1) {
+						JOptionPane.showMessageDialog(contentPane, "O Registro RMI não foi encontrado", // mensagem
+								"Erro ao finalizar o servidor: " + e1.getMessage(), // titulo da janela
+								JOptionPane.ERROR_MESSAGE);
+					} catch (NotBoundException e1) {
+						JOptionPane.showMessageDialog(contentPane, "Este servidor já não está mais registrado.", // mensagem
+								"Erro ao finalizar o servidor: " + e1.getMessage(), // titulo da janela
+								JOptionPane.ERROR_MESSAGE);
+					}
+					nomeField.setEnabled(true);
+					btnStart.setEnabled(true);
+					btnStop.setEnabled(false);
+					lblStatus.setText("Offline");
+				} else {
+					JOptionPane.showMessageDialog(contentPane,
+							"Não foi encontrado nenhum servidor para ser finalizado.", // mensagem
+							"Erro ao finalizar o servidor: ", // titulo da janela
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		btnStop.setBounds(215, 178, 142, 72);

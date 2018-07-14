@@ -1,6 +1,5 @@
 package impl;
 
-import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -52,20 +51,10 @@ public class Servidor {
 
 	}
 	
-	public void shutdown() {
-		try {
+	public void shutdown() throws RemoteException, NotBoundException {
 			registry = LocateRegistry.getRegistry();
 			registry.unbind(this.servidorNome);
-		} catch (AccessException e) {
-			System.out.println("Erro ao finalizar o servidor: "+this.servidorNome);
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			System.out.println("Erro ao finalizar o servidor: "+this.servidorNome);
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			System.out.println("Erro ao finalizar o servidor: "+this.servidorNome);
-			e.printStackTrace();
-		}
+
 	}
 
 
