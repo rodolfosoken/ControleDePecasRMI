@@ -49,22 +49,6 @@ public class Cliente {
 	}
 	
 	
-	/**
-	 * Adiciona uma nova Peça.
-	 * 
-	 * @param part a peça a ser adicionada
-	 */
-	public void addPart(Part part) {
-		 try {
-			partRepository.addPart(part);
-			
-		} catch (RemoteException e) {
-			System.out.println("Erro ao adicionar peça: "+part.toString());
-			System.out.println(e.getMessage());
-		}		
-		
-	}
-	
 	public String getNomeServidor() throws RemoteException {
 		return this.partRepository.getNomeServidor();
 	}
@@ -76,11 +60,10 @@ public class Cliente {
 		return parts;
 	}
 	
-	public Part getPeca(String partCod) throws RemoteException {
-		return this.partRepository.getPart(partCod);
+	
+	public PartRepository getPartrepository() {
+		return this.partRepository;
 	}
-	
-	
 	
 	
 

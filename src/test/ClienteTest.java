@@ -41,13 +41,13 @@ class ClienteTest {
 		try {
 			Cliente cliente = new Cliente(servidorNome);
 			Part peca = new PartImpl("Peça1", "Peça criada por um cliente",servidor.getServidorNome());
-			cliente.addPart(peca);
+			cliente.getPartrepository().addPart(peca);
 			cliente.showParts();
 			cliente.getNomeServidor();
 			cliente.bind(servidor0.getServidorNome());
 			Part pecaComp = new PartImpl("Peca2", "Peça composta por outra peça em outro servidor",servidor0.getServidorNome());
 			pecaComp.addComponent((PartImpl)peca, 3);
-			cliente.addPart(pecaComp);
+			cliente.getPartrepository().addPart(pecaComp);
 			cliente.showParts();
 		} catch (RemoteException e) {
 			fail("Falha ao criar cliente: " + e.getMessage());
