@@ -41,14 +41,14 @@ class ServidorTest {
 		Servidor server = null;
 		try {
 			server = new Servidor(nome);
-			Part part = new PartImpl("PecaTeste","Peça única");
+			Part part = new PartImpl("PecaTeste","Peça única",nome);
 			server.getPartRepository().addPart(part);
 			server.getPartRepository().getPart(part.getPartCod()).setPartDesc("Peça única editada");
-			part = new PartImpl("PecaTeste","Peça única Nova");
+			part = new PartImpl("PecaTeste","Peça única Nova",nome);
 			server.getPartRepository().addPart(part);
-			part = new PartImpl("PecaComposta", "Peça composta");
-			part.getComponentes().put(new PartImpl("Componente1", "Este é um componente"), 1);
-			part.getComponentes().put(new PartImpl("Componente2", "Este é outro componente"), 3);
+			part = new PartImpl("PecaComposta", "Peça composta",nome);
+			part.addComponent(new PartImpl("Componente1", "Este é um componente",nome), 1);
+			part.addComponent(new PartImpl("Componente2", "Este é outro componente",nome), 3);
 //		System.out.println(peca.getComponentes().get(new PartImpl("P8", "Componente2", "Este é outro componente")).toString());
 			server.getPartRepository().addPart(part);
 			System.out.println(server.getPartRepository().getListParts().toString());

@@ -32,6 +32,12 @@ public class Cliente {
 	}
 	
 	/**
+	 * Instacia um novo cliente.
+	 */
+	public Cliente() {
+	}
+	
+	/**
 	 * Conecta à um servidor
 	 * @param servidorNome 
 	 * @throws RemoteException 
@@ -66,9 +72,12 @@ public class Cliente {
 	
 	public String showParts() throws RemoteException {
 		String parts = partRepository.getListParts().toString();
-		System.out.println("Peças em "+partRepository.getNomeServidor()+": ");
 		System.out.println(parts);
 		return parts;
+	}
+	
+	public Part getPeca(String partCod) throws RemoteException {
+		return this.partRepository.getPart(partCod);
 	}
 	
 	

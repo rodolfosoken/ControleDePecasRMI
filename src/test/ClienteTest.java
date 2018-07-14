@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.AbstractMap;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,10 +40,15 @@ class ClienteTest {
 	void test() {
 		try {
 			Cliente cliente = new Cliente(servidorNome);
-			Part peca = new PartImpl("Peça1", "Peça criada por um cliente");
+			Part peca = new PartImpl("Peça1", "Peça criada por um cliente",servidor.getServidorNome());
 			cliente.addPart(peca);
 			cliente.showParts();
 			cliente.getNomeServidor();
+			cliente.bind(servidor0.getServidorNome());
+			Part pecaComp = new PartImpl("Peca2", "Peça composta por outra peça em outro servidor",servidor0.getServidorNome());
+			pecaComp.addComponent((PartImpl)peca, 3);
+			cliente.addPart(pecaComp);
+			cliente.showParts();
 		} catch (RemoteException e) {
 			fail("Falha ao criar cliente: " + e.getMessage());
 		} catch (NotBoundException e) {

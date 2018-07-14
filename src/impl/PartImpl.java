@@ -1,9 +1,13 @@
 package impl;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import interfaces.Part;
-import interfaces.PartRepository;
 
 /**
  * Classe que Implementa a peça (Part)
@@ -25,10 +29,10 @@ public class PartImpl implements Part {
 	private String partDesc;
 	
 	//Componentes da peça
-	private HashMap<PartImpl, Integer> componentes;
+	private Map<String, Entry<PartImpl,Integer>> componentes;
 	
 	//Repositório à qual a peça pertence
-	private PartRepository partRepository;
+	private String nomeServidor;
 	
 	//Flag
 	private boolean isPrimitiva;
@@ -42,27 +46,13 @@ public class PartImpl implements Part {
 	 * @param nome o nome da peça
 	 * @param descricao a descrição da peça
 	 */
-	 public PartImpl(String nome, String descricao){
+	 public PartImpl(String nome, String descricao, String nomeServidor){
 		this.partCod = "P"+numSKU++;
 		this.partNome = nome;
 		this.partDesc = descricao;
 		this.componentes = new HashMap<>();
 		this.isPrimitiva();
-	}
-	
-	/**
-	 * Gera uma nova peça com um código especificado.
-	 * @param partCod
-	 * @param partNome o nome da peça
-	 * @param partDesc a descrição da peça
-	 */
-	 public PartImpl(String partNome, String partDesc, 
-			 HashMap<PartImpl, Integer> componentes) {
-		 this.partCod = "P"+numSKU++;
-		this.partNome = partNome;
-		this.partDesc = partDesc;
-		this.componentes = componentes;
-		this.isPrimitiva();
+		this.nomeServidor = nomeServidor;
 	}
 	 
 	/**
@@ -70,44 +60,33 @@ public class PartImpl implements Part {
 	 * @param partCod
 	 * @param partNome o nome da peça
 	 * @param partDesc a descrição da peça
+	 * @param nomeServidor nome do servidor
 	 */
-	 public PartImpl(String partCod, String partNome, String partDesc) {
+	 public PartImpl(String partCod, String partNome, 
+			 String partDesc, String nomeServidor) {
 		 numSKU++;
 		this.partCod = partCod;
 		this.partNome = partNome;
 		this.partDesc = partDesc;
 		this.componentes = new HashMap<>();
 		this.isPrimitiva();
+		this.nomeServidor = nomeServidor;
 	}
 	 
 	 
-
-	/**
-	 * Gera uma nova peça com um conjunto de componentes definido.
-	 * @param partCod
-	 * @param partNome o nome da peça
-	 * @param partDesc a descrição da peça
-	 */
-	public PartImpl(String partCod, String partNome, 
-			String partDesc, HashMap<PartImpl, Integer> componentes) {
-		numSKU++;
-		this.partCod = partCod;
-		this.partNome = partNome;
-		this.partDesc = partDesc;
-		this.componentes = componentes;
-		this.isPrimitiva();
-	}
 
 	@Override
 	public String toString() {
 		if(isPrimitiva())
 			return "\n[Cod.: "+this.partCod+
 					", Nome: "+this.partNome+
-					", Desc.: "+ this.partDesc+ "]";
+					", Desc.: "+this.partDesc+
+					", Serv.: "+this.nomeServidor+"]";
 		
 		return"\n[Cod.: "+this.partCod+
 				", Nome: "+this.partNome+
 				", Desc.: "+ this.partDesc+
+				", Serv.: "+this.nomeServidor+
 				", Compo.: "+this.componentes.toString() + "]";
 	}
 	
@@ -146,14 +125,28 @@ public class PartImpl implements Part {
 	}
 
 	@Override
-	public HashMap<PartImpl, Integer> getComponentes() {
-		return componentes;
+	public int getQtdComponente(String partCod) {
+		return componentes.get(partCod).getValue();
 	}
 
 	@Override
-	public void setComponentes(HashMap<PartImpl, Integer> componentes) {
-		this.componentes = componentes;
-		this.isPrimitiva();
+	public void addComponent(PartImpl part, Integer qtd) {
+		componentes.put(part.getPartCod(), new AbstractMap.SimpleEntry<PartImpl,Integer>(part, qtd));
+		
+	}
+	
+	@Override
+	public PartImpl getComponente(String partCod) {
+		return componentes.get(partCod).getKey();
+	}
+	
+	@Override
+	public List<PartImpl> getListComponentes() {
+		List<PartImpl> l = new ArrayList<>();
+		for (Entry<PartImpl,Integer> entry : componentes.values()) {
+			l.add(entry.getKey());
+		}
+		return l;
 	}
 	
 	
@@ -189,20 +182,16 @@ public class PartImpl implements Part {
 				^ this.getPartNome().hashCode()
 				^ this.getPartDesc().hashCode(); 
 	}
-	
-	
-	@Override
-	public PartRepository getPartRepository() {
-		return this.partRepository;
-	}
-	
-	
-	@Override
-	public void setPartRepository(PartRepository partRepository) {
-		this.partRepository = partRepository;
-		
-	}
 
+	@Override
+	public String getNomeServidor() {
+		return this.nomeServidor;
+	}
+	
+	@Override
+	public void setNomeServidor(String nomeServidor) {
+		this.nomeServidor = nomeServidor;
 		
+	}
 
 }

@@ -51,7 +51,7 @@ public class PartRepositoryImpl implements PartRepository {
 	@Override
 	public void addPart(Part part) {
 		part.setPartCod(this.nomeRepository+part.getPartCod());
-		part.setPartRepository(this);
+		part.setNomeServidor(this.getNomeServidor());
 		this.parts.put(part.getPartCod(), part);
 	}
 

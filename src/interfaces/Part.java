@@ -1,7 +1,7 @@
 package interfaces;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.List;
 
 import impl.PartImpl;
 
@@ -58,29 +58,40 @@ public interface Part extends Serializable{
 	 */
 	public void setPartDesc(String partDesc);
 	
+	/**
+	 * Retorna os componentes da peça.
+	 * @return the list componentes
+	 */
+	public List<PartImpl> getListComponentes();
+		
+	/**
+	 * @param partCod 
+	 * @return o componente
+	 */
+	public PartImpl getComponente(String partCod);
 	
 	/**
-	 * Componentes da peça
+	 * Quantidade de peças
 	 * @return componentes da peça
 	 * **/
-	public HashMap<PartImpl, Integer> getComponentes();
-
+	public int getQtdComponente(String partCod);
 	
 	/**
-	 * @param componentes novos componentes da peça
-	 * **/
-	public void setComponentes(HashMap<PartImpl, Integer> componentes);
-	
+	 * Adiciona um novo componente
+	 * @param part a peca
+	 * @param qtd a quantidade
+	 */
+	public void addComponent(PartImpl part, Integer qtd);
 	
 	/**
 	 * @return repositorio da peça
 	 * **/
-	public PartRepository getPartRepository();
+	public String getNomeServidor();
 	
 	/**
 	 * @param partRepository o novo repositório de peças
 	 * **/
-	public void setPartRepository(PartRepository partRepository);
+	public void setNomeServidor(String nomeServidor);
 	
 	
 	/**
