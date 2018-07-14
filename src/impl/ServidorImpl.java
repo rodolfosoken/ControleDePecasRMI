@@ -7,10 +7,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
 
-import interfaces.Part;
+import interfaces.PartRepository;
 import interfaces.Servidor;
 
 
@@ -30,13 +28,13 @@ public class ServidorImpl implements Servidor{
 	/**
 	 * Repositório de peças do servidor
 	 * **/
-	private PartRepositoryImpl repository;
+	private PartRepositoryImpl partRepository;
 		
 		
 	/**
 	 * Referência ao RMI registery
 	 * ***/
-	private Registry reg;
+	private Registry registry;
 	
 	/**
 	 * Cria um novo servidor com um repositório de peças.
@@ -44,12 +42,12 @@ public class ServidorImpl implements Servidor{
 	 * **/
 	public ServidorImpl(String servidorNome)throws RemoteException {
 		this.servidorNome = servidorNome;
-		this.repository = new PartRepositoryImpl("repos_"+servidorNome);
+		this.partRepository = new PartRepositoryImpl();
 		
 		try {
 			Servidor stub = (Servidor) UnicastRemoteObject.exportObject(this,0);
-			reg = LocateRegistry.getRegistry();
-			reg.bind(this.servidorNome, stub);
+			registry = LocateRegistry.getRegistry();
+			registry.bind(this.servidorNome, stub);
 //			System.out.println("Servidor "+servidorNome+" iniciado.");
 		
 		} catch (AlreadyBoundException e) {
@@ -59,10 +57,10 @@ public class ServidorImpl implements Servidor{
 	}
 	
 	@Override
-	public void shutdown() {
+	public void shutdown()throws RemoteException {
 		try {
-			reg = LocateRegistry.getRegistry();
-			reg.unbind(this.servidorNome);
+			registry = LocateRegistry.getRegistry();
+			registry.unbind(this.servidorNome);
 		} catch (AccessException e) {
 			System.out.println("Erro ao finalizar o servidor: "+this.servidorNome);
 			e.printStackTrace();
@@ -77,32 +75,26 @@ public class ServidorImpl implements Servidor{
 
 
 	@Override
-	public String getServidorNome() {
+	public String getServidorNome() throws RemoteException {
 		return servidorNome;
 	}
 
 	@Override
-	public void setServidorNome(String servidorNome) {
+	public void setServidorNome(String servidorNome) throws RemoteException{
 		this.servidorNome = servidorNome;
 	}
 
+	
+	@Override
+	public PartRepository getPartRepository() throws RemoteException{
+		return this.partRepository;
+	}
+	
+	@Override
+	public void setPartRepository(PartRepository partRepository) throws RemoteException {
+		this.partRepository = new PartRepositoryImpl(partRepository.getParts());
+	}
 
-	@Override
-	public Part getPeca(String partCod) {
-		return this.repository.getPeca(partCod);
-	}
-	
-	@Override
-	public List<Part> getListPecas(){	
-		return new ArrayList<>(repository.getPartes().values());
-	}
-
-	
-	@Override
-	public void addPeca(Part peca) {
-		this.repository.addPeca(peca);
-	}
-	
 	
 
 }

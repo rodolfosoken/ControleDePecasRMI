@@ -30,7 +30,7 @@ public class PartImpl implements Part {
 	private boolean isPrimitiva;
 	
 	//Faz a contagem de peças para criar o SKU
-	private static int numSKU = 0;
+	private static int numSKU = 1;
 	
 	
 	/**

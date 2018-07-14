@@ -47,13 +47,15 @@ public class Cliente {
 	/**
 	 * Adiciona uma nova Peça.
 	 * 
-	 * @param peca a peça a ser adicionada
+	 * @param part a peça a ser adicionada
 	 */
-	public void addPeca(Part peca) {
+	public void addPart(Part part) {
 		 try {
-			servidor.addPeca(peca);
+			 System.out.println("Peça Passada: "+part.toString());
+			servidor.getPartRepository().addPart(part);
+			System.out.println(servidor.getPartRepository().getParts().toString());
 		} catch (RemoteException e) {
-			System.out.println("Erro ao adicionar peça: "+peca.toString());
+			System.out.println("Erro ao adicionar peça: "+part.toString());
 			System.out.println(e.getMessage());
 		}		
 		
@@ -63,8 +65,10 @@ public class Cliente {
 		return this.servidor.getServidorNome();
 	}
 	
-	public String showPecas() throws RemoteException {
-		return this.servidor.getListPecas().toString();
+	public String showParts() throws RemoteException {
+		String parts = servidor.getPartRepository().getListParts().toString();
+		System.out.println(parts);
+		return parts;
 	}
 	
 	

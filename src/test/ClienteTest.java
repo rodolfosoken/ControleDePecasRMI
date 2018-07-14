@@ -38,10 +38,9 @@ class ClienteTest {
 	void test() {
 		try {
 			Cliente cliente = new Cliente(servidorNome);
-
 			Part peca = new PartImpl("Peça1", "Peça criada por um cliente");
-			cliente.addPeca(peca);
-			System.out.println(cliente.showPecas());
+			cliente.addPart(peca);
+			cliente.showParts();
 		} catch (RemoteException e) {
 			fail("Falha ao criar cliente: " + e.getMessage());
 		} catch (NotBoundException e) {
