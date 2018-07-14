@@ -66,13 +66,13 @@ class ServidorTest {
 		Servidor server = null;
 		try {
 			server = new Servidor(nome);
-			Part part = new PartImpl("123","PecaTeste1","Peça única");
+			Part part = new PartImpl("123","PecaTeste1","Peça única",nome);
 			server.getPartRepository().addPart(part);
-			part = new PartImpl("124","PecaTeste2","Mais uma Peça única");
+			part = new PartImpl("124","PecaTeste2","Mais uma Peça única",nome);
 			server.getPartRepository().addPart(part);
-			part = new PartImpl("125","PecaTeste3","E Mais outra Peça única Nova");
+			part = new PartImpl("125","PecaTeste3","E Mais outra Peça única Nova",nome);
 			server.getPartRepository().addPart(part);
-//		System.out.println("Peça encontrada: "+server.getPartes().get("124").toString());
+		System.out.println("Peça encontrada: "+server.getPartRepository().getPart("124").toString());
 			assertEquals("124",server.getPartRepository().getPart("124").getPartCod());
 			server.shutdown();
 		} catch (RemoteException e) {
