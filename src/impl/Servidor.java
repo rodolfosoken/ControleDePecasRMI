@@ -41,13 +41,13 @@ public class Servidor {
 	 * **/
 	public Servidor(String servidorNome)throws RemoteException {
 		this.servidorNome = servidorNome;
-		this.partRepository = new PartRepositoryImpl(servidorNome);
+		this.partRepository = new PartRepositoryImpl(this);
 		
 		try {
 			PartRepository stub = (PartRepository) UnicastRemoteObject.exportObject(partRepository,0);
 			registry = LocateRegistry.getRegistry();
 			registry.bind(this.servidorNome, stub);
-//			System.out.println("Servidor "+servidorNome+" iniciado.");
+			System.out.println("Servidor "+servidorNome+" iniciado.");
 		
 		} catch (AlreadyBoundException e) {
 			System.out.println("Stub do servidor: "+servidorNome+" já registrado.");
@@ -85,12 +85,7 @@ public class Servidor {
 	}
 	
 	public void setPartRepository(PartRepository partRepository) {
-		try {
-			this.partRepository = new PartRepositoryImpl(servidorNome,partRepository.getParts());
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.partRepository = (PartRepositoryImpl) partRepository;
 	}
 
 	

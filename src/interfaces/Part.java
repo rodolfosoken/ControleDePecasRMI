@@ -71,6 +71,18 @@ public interface Part extends Serializable{
 	 * **/
 	public void setComponentes(HashMap<PartImpl, Integer> componentes);
 	
+	
+	/**
+	 * @return repositorio da peça
+	 * **/
+	public PartRepository getPartRepository();
+	
+	/**
+	 * @param partRepository o novo repositório de peças
+	 * **/
+	public void setPartRepository(PartRepository partRepository);
+	
+	
 	/**
 	 * Indica se a peça é primitiva, 
 	 * verificando se componentes está vazio

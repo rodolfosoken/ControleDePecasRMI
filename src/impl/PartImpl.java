@@ -3,6 +3,7 @@ package impl;
 import java.util.HashMap;
 
 import interfaces.Part;
+import interfaces.PartRepository;
 
 /**
  * Classe que Implementa a peça (Part)
@@ -25,6 +26,9 @@ public class PartImpl implements Part {
 	
 	//Componentes da peça
 	private HashMap<PartImpl, Integer> componentes;
+	
+	//Repositório à qual a peça pertence
+	private PartRepository partRepository;
 	
 	//Flag
 	private boolean isPrimitiva;
@@ -187,7 +191,17 @@ public class PartImpl implements Part {
 	}
 	
 	
+	@Override
+	public PartRepository getPartRepository() {
+		return this.partRepository;
+	}
 	
+	
+	@Override
+	public void setPartRepository(PartRepository partRepository) {
+		this.partRepository = partRepository;
+		
+	}
 
 		
 

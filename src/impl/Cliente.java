@@ -60,11 +60,13 @@ public class Cliente {
 	}
 	
 	public String getNomeServidor() throws RemoteException {
-		return this.partRepository.getNomeRepository();
+		return this.partRepository.getNomeServidor();
 	}
+	
 	
 	public String showParts() throws RemoteException {
 		String parts = partRepository.getListParts().toString();
+		System.out.println("Peças em "+partRepository.getNomeServidor()+": ");
 		System.out.println(parts);
 		return parts;
 	}

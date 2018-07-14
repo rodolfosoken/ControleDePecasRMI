@@ -3,7 +3,8 @@ package interfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.Map;
+
+import impl.Servidor;
 
 /**
  * Interface que especifica os métodos de um repositório
@@ -11,18 +12,6 @@ import java.util.Map;
  * **/
 public interface PartRepository extends Remote {
 		
-	/**
-	 * @return partes conjunto contendo todas as partes no servidor.
-	 * @throws RemoteException
-	 * **/
-	public Map<String,Part> getParts() throws RemoteException;
-
-	/**
-	 * @param parts conjunto com as partes presentes no servidor
-	 * @throws RemoteException
-	 **/
-	public void setParts(Map<String,Part> parts) throws RemoteException;
-
 	
 	/**
 	 * Adiciona uma nova peça ao repositório
@@ -61,6 +50,19 @@ public interface PartRepository extends Remote {
 	 */
 	public List<Part> getListParts() throws RemoteException;
 	
+	/**
+	 * Retorna uma referencia ao servidor que implementa o repositório.
+	 *
+	 * @return servidor
+	 * @throws RemoteException the remote exception
+	 */
+	public Servidor getServidor()throws RemoteException ;
 	
+	/**
+	 *@param servidor o novo servidor
+	 * @throws RemoteException the remote exception
+	 */
+	public void setServidor(Servidor servidor)throws RemoteException;
+	public String getNomeServidor() throws RemoteException;
 
 }

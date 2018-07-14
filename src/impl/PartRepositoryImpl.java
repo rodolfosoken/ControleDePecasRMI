@@ -25,6 +25,11 @@ public class PartRepositoryImpl implements PartRepository {
 	 * ***/
 	private String nomeRepository;
 	
+	/**
+	 * Servidor que hospeda o repositorio 
+	 * **/
+	private Servidor servidor;
+	
 	
 	//Faz a contagem de peças para criar o SKU
 	private static int numSKU = 1;
@@ -32,32 +37,21 @@ public class PartRepositoryImpl implements PartRepository {
 	/**
 	 * Cria um novo repositório de peças.
 	 * **/
-	public PartRepositoryImpl(String nomeServidor) {
+	public PartRepositoryImpl(Servidor servidor) {
+		this.servidor = servidor;
 		this.parts = new HashMap<String, Part>();
-		this.nomeRepository = nomeServidor+"_R"+numSKU++;
-	}
-	
-	/**
-	 * Cria um novo repositório de peças.
-	 * **/
-	public PartRepositoryImpl(String nomeServidor,Map<String,Part> parts) {
-		this.parts =new HashMap<>(parts);
-		this.nomeRepository = nomeServidor+"_R"+numSKU++;
-	}
-
-
-	@Override
-	public Map<String,Part> getParts() {
-		return parts;
+		this.nomeRepository = "R"+numSKU++;
 	}
 
 	@Override
-	public void setParts(Map<String,Part> parts) {
-		this.parts = parts;
+	public List<Part> getListParts(){	
+		return new ArrayList<>(this.parts.values());
 	}
 	
 	@Override
 	public void addPart(Part part) {
+		part.setPartCod(this.nomeRepository+part.getPartCod());
+		part.setPartRepository(this);
 		this.parts.put(part.getPartCod(), part);
 	}
 
@@ -78,11 +72,26 @@ public class PartRepositoryImpl implements PartRepository {
 		this.nomeRepository = nomeRepository;
 	}
 
+	@Override
+	public Servidor getServidor() {
+		return servidor;
+	}
 
 	@Override
-	public List<Part> getListParts(){	
-		return new ArrayList<>(this.parts.values());
+	public void setServidor(Servidor servidor) {
+		this.servidor = servidor;
 	}
+
+	@Override
+	public String toString() {
+		return "Serv.: "+ this.servidor.getServidorNome()+" Rep.:"+this.nomeRepository;
+	}
+	
+	@Override
+	public String getNomeServidor() {
+		return this.servidor.getServidorNome();
+	}
+
 
 
 }
