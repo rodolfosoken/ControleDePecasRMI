@@ -58,6 +58,11 @@ public class Servidor {
 
 	}
 
+	public static void shutdown(String servidorNome) throws RemoteException, NotBoundException {
+		Registry registry = LocateRegistry.getRegistry();
+		registry.unbind(servidorNome);
+		System.out.println("Servidor "+servidorNome+" finalizado.");
+	}
 
 	public String getServidorNome()  {
 		return servidorNome;

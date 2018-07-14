@@ -97,13 +97,30 @@ public class ServidorGui extends JFrame {
 					}
 
 				} catch (RemoteException e) {
-					JOptionPane.showMessageDialog(contentPane, "Não foi possível iniciar o servidor.", // mensagem
-							"Erro ao iniciar o servidor: " + e.getMessage(), // titulo da janela
+					
+					JOptionPane.showMessageDialog(contentPane, "Não foi possível iniciar o servidor."+ e.getMessage(), // mensagem
+							"Erro ao iniciar o servidor" , // titulo da janela
 							JOptionPane.ERROR_MESSAGE);
 				} catch (AlreadyBoundException e) {
-					JOptionPane.showMessageDialog(contentPane, "Servidor já está registrado", // mensagem
-							"Erro ao iniciar o servidor: " + e.getMessage(), // titulo da janela
-							JOptionPane.ERROR_MESSAGE);
+										
+					String[] options = new String[] {"Sim", "Não"};
+				    int response = JOptionPane.showOptionDialog(null, "Servidor já está registrado: "
+				    		+ "Deseja encerrar o processo em execução?", "Erro ao iniciar o servidor:",
+				        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+				        null, options, options[0]);
+				    if(response == 0) {
+				    	try {
+							Servidor.shutdown(nomeField.getText());
+						} catch (RemoteException e1) {
+							JOptionPane.showMessageDialog(contentPane, 
+									"Não foi possível finalizar o servidor."+ e1.getMessage(), // mensagem
+									"Erro ao tentar finalizar o servidor: " , // titulo da janela
+									JOptionPane.ERROR_MESSAGE);
+						} catch (NotBoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+				    }
 				}
 			}
 		});
