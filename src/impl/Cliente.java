@@ -4,8 +4,10 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import interfaces.Part;
 import interfaces.PartRepository;
 
 /**
@@ -20,6 +22,11 @@ public class Cliente {
 	/** Referência do registro RMI ***/
 	Registry registry;
 	
+	/**Lista temporária para selecionar peças**/
+	Map <String, Entry<PartImpl,Integer>> listaAtual;
+	
+	PartImpl part;
+	
 	/**
 	 *Instância um novo cliente.
 	 *
@@ -28,6 +35,7 @@ public class Cliente {
 	 * @throws NotBoundException 
 	 */
 	public Cliente(String servidorNome) throws RemoteException, NotBoundException {
+		listaAtual = new HashMap<String, Map.Entry<PartImpl,Integer>>();
 		bind(servidorNome);
 	}
 	
@@ -35,6 +43,7 @@ public class Cliente {
 	 * Instacia um novo cliente.
 	 */
 	public Cliente() {
+		listaAtual = new HashMap<String, Map.Entry<PartImpl,Integer>>();
 	}
 	
 	/**
@@ -59,8 +68,15 @@ public class Cliente {
 		System.out.println(parts);
 		return parts;
 	}
-	
-	
+		
+	public PartImpl getPart() {
+		return part;
+	}
+
+	public void setPart(PartImpl part) {
+		this.part = part;
+	}
+
 	public PartRepository getPartrepository() {
 		return this.partRepository;
 	}

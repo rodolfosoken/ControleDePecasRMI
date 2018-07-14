@@ -130,8 +130,8 @@ public class PartImpl implements Part {
 	}
 
 	@Override
-	public void addComponent(PartImpl part, Integer qtd) {
-		componentes.put(part.getPartCod(), new AbstractMap.SimpleEntry<PartImpl,Integer>(part, qtd));
+	public void addComponent(Part part, Integer qtd) {
+		componentes.put(part.getPartCod(), new AbstractMap.SimpleEntry<PartImpl,Integer>((PartImpl)part, qtd));
 		
 	}
 	
@@ -141,8 +141,8 @@ public class PartImpl implements Part {
 	}
 	
 	@Override
-	public List<PartImpl> getListComponentes() {
-		List<PartImpl> l = new ArrayList<>();
+	public List<Part> getListComponentes() {
+		List<Part> l = new ArrayList<>();
 		for (Entry<PartImpl,Integer> entry : componentes.values()) {
 			l.add(entry.getKey());
 		}

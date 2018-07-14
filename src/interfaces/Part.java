@@ -62,7 +62,7 @@ public interface Part extends Serializable{
 	 * Retorna os componentes da peça.
 	 * @return the list componentes
 	 */
-	public List<PartImpl> getListComponentes();
+	public List<Part> getListComponentes();
 		
 	/**
 	 * @param partCod 
@@ -81,7 +81,7 @@ public interface Part extends Serializable{
 	 * @param part a peca
 	 * @param qtd a quantidade
 	 */
-	public void addComponent(PartImpl part, Integer qtd);
+	public void addComponent(Part part, Integer qtd);
 	
 	/**
 	 * @return repositorio da peça
