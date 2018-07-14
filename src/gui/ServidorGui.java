@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
@@ -85,7 +86,7 @@ public class ServidorGui extends JFrame {
 					 JOptionPane.showMessageDialog(contentPane,
 						        "Campo nome não pode estar vazio!", //mensagem
 						        "Erro ao iniciar o servidor", // titulo da janela 
-						        JOptionPane.INFORMATION_MESSAGE);
+						        JOptionPane.ERROR_MESSAGE);
 					else {
 						servidor = new Servidor(nomeField.getText());
 						nomeField.setEnabled(false);
@@ -95,8 +96,15 @@ public class ServidorGui extends JFrame {
 					}
 					
 				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(contentPane,
+					        "Não foi possível iniciar o servidor.", //mensagem
+					        "Erro ao iniciar o servidor: " + e.getMessage(), // titulo da janela 
+					        JOptionPane.ERROR_MESSAGE);
+				}catch (AlreadyBoundException e) {
+					JOptionPane.showMessageDialog(contentPane,
+					        "Servidor já está registrado", //mensagem
+					        "Erro ao iniciar o servidor: " + e.getMessage(), // titulo da janela 
+					        JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

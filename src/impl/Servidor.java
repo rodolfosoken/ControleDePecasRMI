@@ -38,21 +38,18 @@ public class Servidor {
 	/**
 	 * Cria um novo servidor com um repositório de peças.
 	 * @param servidorNome o nome do servidor
+	 * @throws AlreadyBoundException 
 	 * **/
-	public Servidor(String servidorNome)throws RemoteException {
+	public Servidor(String servidorNome)throws RemoteException, AlreadyBoundException {
 		this.servidorNome = servidorNome;
 		this.partRepository = new PartRepositoryImpl(this);
-		
-		try {
+
 			PartRepository stub = (PartRepository) UnicastRemoteObject.exportObject(partRepository,0);
 			registry = LocateRegistry.getRegistry();
 			registry.bind(this.servidorNome, stub);
 			System.out.println("Servidor "+servidorNome+" iniciado.");
 		
-		} catch (AlreadyBoundException e) {
-			System.out.println("Stub do servidor: "+servidorNome+" já registrado.");
-			e.printStackTrace();
-		}
+
 	}
 	
 	public void shutdown() {

@@ -3,6 +3,7 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 
 import org.junit.jupiter.api.Test;
@@ -17,9 +18,10 @@ class ServidorTest {
 	
 	/**
 	 * Testa a adição de uma peça
+	 * @throws AlreadyBoundException 
 	 * ***/
 	@Test
-	void testAdd() {
+	void testAdd() throws AlreadyBoundException {
 		String  nome = "TesteAdd";
 		Servidor server = null;
 		try {
@@ -57,6 +59,9 @@ class ServidorTest {
 		} catch (RemoteException e) {
 			System.out.println(e.getMessage());
 			fail("Erro ao conectar");
+		} catch (AlreadyBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -78,6 +83,9 @@ class ServidorTest {
 		} catch (RemoteException e) {
 			System.out.println(e.getMessage());
 			fail("Erro ao conectar");
+		} catch (AlreadyBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
