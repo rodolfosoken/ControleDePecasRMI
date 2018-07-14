@@ -13,7 +13,6 @@ import interfaces.PartRepository;
  * **/
 public class PartRepositoryImpl implements PartRepository {
 	
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Conjunto de partes presentes no servidor
@@ -33,17 +32,17 @@ public class PartRepositoryImpl implements PartRepository {
 	/**
 	 * Cria um novo repositório de peças.
 	 * **/
-	public PartRepositoryImpl() {
+	public PartRepositoryImpl(String nomeServidor) {
 		this.parts = new HashMap<String, Part>();
-		this.nomeRepository = "R"+numSKU++;
+		this.nomeRepository = nomeServidor+"_R"+numSKU++;
 	}
 	
 	/**
 	 * Cria um novo repositório de peças.
 	 * **/
-	public PartRepositoryImpl(Map<String,Part> parts) {
+	public PartRepositoryImpl(String nomeServidor,Map<String,Part> parts) {
 		this.parts =new HashMap<>(parts);
-		this.nomeRepository = "R"+numSKU++;
+		this.nomeRepository = nomeServidor+"_R"+numSKU++;
 	}
 
 

@@ -8,9 +8,8 @@ import java.rmi.RemoteException;
 import org.junit.jupiter.api.Test;
 
 import impl.PartImpl;
-import impl.ServidorImpl;
+import impl.Servidor;
 import interfaces.Part;
-import interfaces.Servidor;
 
 class ServidorTest {
 
@@ -24,7 +23,7 @@ class ServidorTest {
 		String  nome = "TesteAdd";
 		Servidor server = null;
 		try {
-			server = new ServidorImpl(nome);
+			server = new Servidor(nome);
 			Part part = new PartImpl("123","PecaTeste","Peça única");
 			server.getPartRepository().addPart(part);
 //		System.out.println(server.getPartes().toString());
@@ -39,9 +38,9 @@ class ServidorTest {
 	@Test
 	void testEdicao() {
 		String  nome = "TesteEdicao";
-		ServidorImpl server = null;
+		Servidor server = null;
 		try {
-			server = new ServidorImpl(nome);
+			server = new Servidor(nome);
 			Part part = new PartImpl("PecaTeste","Peça única");
 			server.getPartRepository().addPart(part);
 			server.getPartRepository().getPart(part.getPartCod()).setPartDesc("Peça única editada");
@@ -64,9 +63,9 @@ class ServidorTest {
 	@Test
 	void testBusca() {
 		String  nome = "TesteBusca";
-		ServidorImpl server = null;
+		Servidor server = null;
 		try {
-			server = new ServidorImpl(nome);
+			server = new Servidor(nome);
 			Part part = new PartImpl("123","PecaTeste1","Peça única");
 			server.getPartRepository().addPart(part);
 			part = new PartImpl("124","PecaTeste2","Mais uma Peça única");

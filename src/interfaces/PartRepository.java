@@ -1,6 +1,6 @@
 package interfaces;
 
-import java.io.Serializable;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
  * Interface que especifica os métodos de um repositório
  * 
  * **/
-public interface PartRepository extends Serializable {
+public interface PartRepository extends Remote {
 		
 	/**
 	 * @return partes conjunto contendo todas as partes no servidor.

@@ -11,9 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import impl.Cliente;
 import impl.PartImpl;
-import impl.ServidorImpl;
+import impl.Servidor;
 import interfaces.Part;
-import interfaces.Servidor;
 
 class ClienteTest {
 
@@ -23,7 +22,7 @@ class ClienteTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		try {
-			servidor = new ServidorImpl(servidorNome);
+			servidor = new Servidor(servidorNome);
 		} catch (RemoteException e) {
 			fail("Erro ao iniciar Servidor de teste para clientes: " + e.getMessage());
 		}

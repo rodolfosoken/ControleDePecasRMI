@@ -6,7 +6,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import interfaces.Part;
-import interfaces.Servidor;
+import interfaces.PartRepository;
 
 /**
  * Classe que representa um cliente e terá a implementação
@@ -14,8 +14,8 @@ import interfaces.Servidor;
  * **/
 public class Cliente {
 	
-	/** Referência ao servidor  ao qual o cliente está conectado */
-	Servidor servidor;
+	/** Referência ao repositorio ao qual o cliente está conectado */
+	PartRepository partRepository;
 	
 	/** Referência do registro RMI ***/
 	Registry registry;
@@ -29,7 +29,6 @@ public class Cliente {
 	 */
 	public Cliente(String servidorNome) throws RemoteException, NotBoundException {
 		bind(servidorNome);
-
 	}
 	
 	/**
@@ -40,7 +39,7 @@ public class Cliente {
 	 * **/
 	public void bind(String servidorNome) throws RemoteException, NotBoundException {
 		registry = LocateRegistry.getRegistry();
-		this.servidor = (Servidor) registry.lookup(servidorNome);
+		this.partRepository = (PartRepository) registry.lookup(servidorNome);
 	}
 	
 	
@@ -51,9 +50,8 @@ public class Cliente {
 	 */
 	public void addPart(Part part) {
 		 try {
-			 System.out.println("Peça Passada: "+part.toString());
-			servidor.getPartRepository().addPart(part);
-			System.out.println(servidor.getPartRepository().getParts().toString());
+			partRepository.addPart(part);
+			
 		} catch (RemoteException e) {
 			System.out.println("Erro ao adicionar peça: "+part.toString());
 			System.out.println(e.getMessage());
@@ -62,11 +60,11 @@ public class Cliente {
 	}
 	
 	public String getNomeServidor() throws RemoteException {
-		return this.servidor.getServidorNome();
+		return this.partRepository.getNomeRepository();
 	}
 	
 	public String showParts() throws RemoteException {
-		String parts = servidor.getPartRepository().getListParts().toString();
+		String parts = partRepository.getListParts().toString();
 		System.out.println(parts);
 		return parts;
 	}
