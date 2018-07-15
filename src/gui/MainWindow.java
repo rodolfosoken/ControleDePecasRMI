@@ -50,6 +50,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				ServidorGui servidor = new ServidorGui();
 				servidor.setDefaultCloseOperation(HIDE_ON_CLOSE);
+				servidor.setLocation(500, 130);
 				servidor.setVisible(true);
 			}
 		});

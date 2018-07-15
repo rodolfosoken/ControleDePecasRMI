@@ -174,7 +174,9 @@ public class PartImpl implements Part {
 	public List<Part> getListComponentes() {
 		List<Part> l = new ArrayList<>();
 		for (Entry<PartImpl,Integer> entry : componentes.values()) {
-			l.add(entry.getKey());
+			for (int i = 0; i < entry.getValue(); i++) {				
+				l.add(entry.getKey());
+			}
 		}
 		return l;
 	}

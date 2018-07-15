@@ -59,6 +59,7 @@ public class Cliente {
 	public void bind(String servidorNome) throws RemoteException, NotBoundException {
 		registry = LocateRegistry.getRegistry();
 		this.partRepository = (PartRepository) registry.lookup(servidorNome);
+		
 	}
 	
 	
@@ -103,6 +104,10 @@ public class Cliente {
 			l.add(entry.getKey());
 		}
 		return l;
+	}
+	
+	public void limpaListaAtual() {
+		listaAtual = new HashMap<String, Map.Entry<PartImpl,Integer>>();
 	}
 	
 

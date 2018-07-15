@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
@@ -22,6 +21,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -30,7 +30,7 @@ import javax.swing.border.MatteBorder;
 import impl.Cliente;
 import impl.PartImpl;
 import interfaces.Part;
-import javax.swing.SpinnerNumberModel;
+import java.awt.SystemColor;
 
 public class ClienteGui extends JFrame {
 
@@ -115,7 +115,7 @@ public class ClienteGui extends JFrame {
 		panel.add(lblNome);
 		
 		JLabel lblDesc = new JLabel("Descrição:");
-		lblDesc.setBounds(10, 174, 63, 14);
+		lblDesc.setBounds(10, 174, 76, 14);
 		panel.add(lblDesc);
 		
 		JLabel lblComponentes = new JLabel("Componentes :");
@@ -123,17 +123,18 @@ public class ClienteGui extends JFrame {
 		panel.add(lblComponentes);
 		
 		textFieldNomePA = new JTextField();
-		textFieldNomePA.setBounds(80, 104, 198, 20);
+		textFieldNomePA.setEnabled(false);
+		textFieldNomePA.setBounds(96, 104, 182, 20);
 		panel.add(textFieldNomePA);
 		textFieldNomePA.setColumns(10);
 		
 		JLabel lblServidor = new JLabel("Servidor");
-		lblServidor.setBounds(10, 138, 46, 14);
+		lblServidor.setBounds(10, 138, 76, 14);
 		panel.add(lblServidor);
 		
 		textFieldNomeServidorPA = new JTextField();
 		textFieldNomeServidorPA.setEditable(false);
-		textFieldNomeServidorPA.setBounds(80, 135, 198, 20);
+		textFieldNomeServidorPA.setBounds(96, 135, 182, 20);
 		panel.add(textFieldNomeServidorPA);
 		textFieldNomeServidorPA.setColumns(10);
 		
@@ -142,7 +143,7 @@ public class ClienteGui extends JFrame {
 		panel.add(lblCodPea);
 		
 		textFieldPartCodPA = new JTextField();
-		textFieldPartCodPA.setBounds(80, 58, 133, 20);
+		textFieldPartCodPA.setBounds(96, 58, 117, 20);
 		panel.add(textFieldPartCodPA);
 		textFieldPartCodPA.setColumns(10);
 		
@@ -153,6 +154,7 @@ public class ClienteGui extends JFrame {
 		lblPea.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JButton btnBuscar = new JButton("Buscar");
+
 		btnBuscar.setEnabled(false);
 		btnBuscar.setBounds(223, 57, 76, 23);
 		panel.add(btnBuscar);
@@ -162,13 +164,18 @@ public class ClienteGui extends JFrame {
 		panel.add(scrollPane_2);
 		
 		listComponentsPartAtualPA = new JList<Part>();
+		listComponentsPartAtualPA.setToolTipText("Componentes da peça");
+		listComponentsPartAtualPA.setForeground(Color.BLACK);
+		listComponentsPartAtualPA.setBackground(SystemColor.menu);
+		listComponentsPartAtualPA.setEnabled(false);
 		scrollPane_2.setViewportView(listComponentsPartAtualPA);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(80, 168, 203, 52);
+		scrollPane_3.setBounds(95, 168, 188, 77);
 		panel.add(scrollPane_3);
 		
 		textAreaDescPA = new JTextArea();
+		textAreaDescPA.setEnabled(false);
 		textAreaDescPA.setLineWrap(true);
 		textAreaDescPA.setColumns(8);
 		scrollPane_3.setViewportView(textAreaDescPA);
@@ -204,10 +211,7 @@ public class ClienteGui extends JFrame {
 		
 		JButton btnApagar = new JButton("Remover da Lista");
 		btnApagar.setEnabled(false);
-		btnApagar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+
 		btnApagar.setBounds(28, 506, 182, 28);
 		contentPane.add(btnApagar);
 		
@@ -232,6 +236,7 @@ public class ClienteGui extends JFrame {
 		contentPane.add(scrollPane);
 		
 		listParts = new JList<Part>();
+		listParts.setValueIsAdjusting(true);
 		scrollPane.setViewportView(listParts);
 
 		listParts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -281,7 +286,7 @@ public class ClienteGui extends JFrame {
 						btnAtualizar.setEnabled(true);
 						btnNovaPeca.setEnabled(true);
 						btnEditPart.setEnabled(true);
-						
+						btnBuscar.setEnabled(true);
 					}
 				} catch (RemoteException | NotBoundException e1) {
 					JOptionPane.showMessageDialog(contentPane, 
@@ -299,6 +304,8 @@ public class ClienteGui extends JFrame {
 					loadPart(listParts.getSelectedValue());	
 					btnSavePart.setEnabled(true);
 					btnAddSubPart2List.setEnabled(true);
+					textFieldNomePA.setEnabled(true);
+					textAreaDescPA.setEnabled(true);
 				}else {
 					JOptionPane.showMessageDialog(contentPane, 
 							"Não há peça selecionada. ", // mensagem
@@ -315,6 +322,8 @@ public class ClienteGui extends JFrame {
 					loadPart(new PartImpl(cliente.getNomeServidor()));
 					btnSavePart.setEnabled(true);
 					btnAddSubPart2List.setEnabled(true);
+					textFieldNomePA.setEnabled(true);
+					textAreaDescPA.setEnabled(true);
 				} catch (RemoteException e1) {
 					JOptionPane.showMessageDialog(contentPane, 
 							"Não foi possível criar uma nova peça: "+e1.getMessage(), // mensagem
@@ -336,6 +345,7 @@ public class ClienteGui extends JFrame {
 				try {
 					cliente.add2ListaAtual(cliente.getPart(),(int)spinner.getValue());
 					listSubParts.setModel(loadListSubPartsPA());
+					loadPart(new PartImpl(cliente.getNomeServidor()));
 					btnSaveSubPart2Part.setEnabled(true);
 					btnApagar.setEnabled(true);
 				} catch (RemoteException e1) {
@@ -353,7 +363,8 @@ public class ClienteGui extends JFrame {
 					try {
 						listComponentsPartAtualPA.setModel(loadListComponentesPA()); // carrega componentes da peça
 						cliente.getPartrepository().addPart(cliente.getPart());
-						
+						cliente.limpaListaAtual();
+						listSubParts.setModel(loadListSubPartsPA());
 					} catch (RemoteException e1) {
 						JOptionPane.showMessageDialog(contentPane, 
 								"Não foi possível salvar a peça: "+e1.getMessage(), // mensagem
@@ -370,6 +381,41 @@ public class ClienteGui extends JFrame {
 		});
 		
 		
+		btnApagar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					cliente.limpaListaAtual();
+					listSubParts.setModel(loadListSubPartsPA());
+				} catch (RemoteException e1) {
+					JOptionPane.showMessageDialog(contentPane, 
+							"Não foi possível limpar a lista: "+e1.getMessage(), // mensagem
+							"Erro ao apagar a lista", // titulo da janela
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
+		
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					PartImpl p = (PartImpl) cliente.getPartrepository().getPart(textFieldPartCodPA.getText());
+					if(p!=null)
+						loadPart(p);
+					else
+						JOptionPane.showMessageDialog(contentPane, 
+								"Não foi possível localizar a peça: "+textFieldPartCodPA.getText(), // mensagem
+								"Erro ao buscar peça", // titulo da janela
+								JOptionPane.ERROR_MESSAGE);
+				} catch (RemoteException e1) {
+					JOptionPane.showMessageDialog(contentPane, 
+							"Não foi possível localizar a peça: "+e1.getMessage(), // mensagem
+							"Erro ao buscar peça", // titulo da janela
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
 		//============================== Fim do método ===============================
 	}
 	
@@ -383,6 +429,7 @@ public class ClienteGui extends JFrame {
 	private void moveToRepository() {
 		setClientePart();
 		try {
+			cliente.getPart().setNomeServidor(cliente.getNomeServidor());
 			cliente.getPartrepository().addPart(cliente.getPart());
 			loadPart(new PartImpl(cliente.getNomeServidor()));// limpa campos
 			listParts.setModel(loadListRepositorio()); // recarrega a lista do repositório
