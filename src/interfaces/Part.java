@@ -112,13 +112,13 @@ public interface Part extends Serializable{
 	 * Componentes da peça
 	 * @return componentes da peça
 	 * **/
-	public Map<String, Entry<PartImpl,Integer>> getComponentes();
+	public Map<String, Entry<Part,Integer>> getComponentes();
 
 	
 	/**
 	 * @param componentes novos componentes da peça
 	 * **/
-	public void setComponentes(Map<String, Entry<PartImpl,Integer>> componentes);
+	public void setComponentes(Map<String, Entry<Part,Integer>> componentes);
 	
 
 }

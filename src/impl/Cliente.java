@@ -27,9 +27,9 @@ public class Cliente {
 	Registry registry;
 	
 	/**Lista temporária para selecionar peças**/
-	Map <String, Entry<PartImpl,Integer>> listaAtual;
+	Map <String, Entry<Part,Integer>> listaAtual;
 	
-	PartImpl part;
+	Part part;
 	
 	/**
 	 *Instância um novo cliente.
@@ -39,7 +39,7 @@ public class Cliente {
 	 * @throws NotBoundException 
 	 */
 	public Cliente(String servidorNome) throws RemoteException, NotBoundException {
-		listaAtual = new HashMap<String, Map.Entry<PartImpl,Integer>>();
+		listaAtual = new HashMap<String, Map.Entry<Part,Integer>>();
 		bind(servidorNome);
 	}
 	
@@ -47,7 +47,7 @@ public class Cliente {
 	 * Instacia um novo cliente.
 	 */
 	public Cliente() {
-		listaAtual = new HashMap<String, Map.Entry<PartImpl,Integer>>();
+		listaAtual = new HashMap<String, Map.Entry<Part,Integer>>();
 	}
 	
 	/**
@@ -88,11 +88,11 @@ public class Cliente {
 		return parts;
 	}
 		
-	public PartImpl getPart() {
+	public Part getPart() {
 		return part;
 	}
 
-	public void setPart(PartImpl part) {
+	public void setPart(Part part) {
 		this.part = part;
 	}
 
@@ -100,28 +100,28 @@ public class Cliente {
 		return this.partRepository;
 	}
 
-	public Map<String, Entry<PartImpl, Integer>> getListaAtual() {
+	public Map<String, Entry<Part, Integer>> getListaAtual() {
 		return listaAtual;
 	}
 
-	public void setListaAtual(Map<String, Entry<PartImpl, Integer>> listaAtual) {
+	public void setListaAtual(Map<String, Entry<Part, Integer>> listaAtual) {
 		this.listaAtual = listaAtual;
 	}
 	
-	public void add2ListaAtual(PartImpl part, int qtd) {
-		getListaAtual().put(part.getPartCod(), new AbstractMap.SimpleEntry<PartImpl,Integer>((PartImpl)part, qtd));
+	public void add2ListaAtual(Part part, int qtd) {
+		getListaAtual().put(part.getPartCod(), new AbstractMap.SimpleEntry<Part,Integer>(part, qtd));
 	}
 	
 	public List<Part> getListListaAtual() {
 		List<Part> l = new ArrayList<>();
-		for (Entry<PartImpl,Integer> entry : listaAtual.values()) {
+		for (Entry<Part,Integer> entry : listaAtual.values()) {
 			l.add(entry.getKey());
 		}
 		return l;
 	}
 	
 	public void limpaListaAtual() {
-		listaAtual = new HashMap<String, Map.Entry<PartImpl,Integer>>();
+		listaAtual = new HashMap<String, Map.Entry<Part,Integer>>();
 	}
 	
 

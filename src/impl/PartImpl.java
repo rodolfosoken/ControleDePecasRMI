@@ -29,7 +29,7 @@ public class PartImpl implements Part {
 	private String partDesc;
 	
 	//Componentes da peça
-	private Map<String, Entry<PartImpl,Integer>> componentes;
+	private Map<String, Entry<Part,Integer>> componentes;
 	
 	//Repositório à qual a peça pertence
 	private String nomeServidor;
@@ -94,7 +94,7 @@ public class PartImpl implements Part {
  	 * @param nomeServidor the nome servidor
  	 */
 	public PartImpl(String partCod, String partNome, String partDesc, 
-			Map<String, Entry<PartImpl, Integer>> componentes,
+			Map<String, Entry<Part, Integer>> componentes,
 			String nomeServidor) {
 		super();
 		this.partCod = partCod;
@@ -161,19 +161,19 @@ public class PartImpl implements Part {
 
 	@Override
 	public void addComponent(Part part, Integer qtd) {
-		componentes.put(part.getPartCod(), new AbstractMap.SimpleEntry<PartImpl,Integer>((PartImpl)part, qtd));
+		componentes.put(part.getPartCod(), new AbstractMap.SimpleEntry<Part,Integer>((PartImpl)part, qtd));
 		
 	}
 	
 	@Override
 	public PartImpl getComponente(String partCod) {
-		return componentes.get(partCod).getKey();
+		return (PartImpl) componentes.get(partCod).getKey();
 	}
 	
 	@Override
 	public List<Part> getListComponentes() {
 		List<Part> l = new ArrayList<>();
-		for (Entry<PartImpl,Integer> entry : componentes.values()) {
+		for (Entry<Part,Integer> entry : componentes.values()) {
 			for (int i = 0; i < entry.getValue(); i++) {				
 				l.add(entry.getKey());
 			}
@@ -227,12 +227,12 @@ public class PartImpl implements Part {
 	}
 
 	@Override
-	public Map<String, Entry<PartImpl, Integer>> getComponentes() {
+	public Map<String, Entry<Part, Integer>> getComponentes() {
 		return componentes;
 	}
 	
 	@Override
-	public void setComponentes(Map<String, Entry<PartImpl, Integer>> componentes) {
+	public void setComponentes(Map<String, Entry<Part, Integer>> componentes) {
 		this.componentes = componentes;
 	}
 	

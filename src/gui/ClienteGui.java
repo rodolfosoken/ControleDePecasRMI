@@ -513,7 +513,7 @@ public class ClienteGui extends JFrame {
 	private int qtdLista() {
 		int cont = 0; 
 		if(!cliente.getListaAtual().isEmpty())
-			for (Entry<PartImpl, Integer> en : cliente.getListaAtual().values()) {
+			for (Entry<Part, Integer> en : cliente.getListaAtual().values()) {
 				cont += en.getValue();
 			}
 		return cont;
