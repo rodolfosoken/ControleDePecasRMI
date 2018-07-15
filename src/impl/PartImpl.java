@@ -40,6 +40,17 @@ public class PartImpl implements Part {
 	//Faz a contagem de peças para criar o SKU
 	private static int numSKU = 1;
 	
+	/**
+	 * Gera uma nova peça com um código aleatório.
+	 */
+	 public PartImpl(String nomeServidor){
+		this.partCod = "P"+numSKU++;
+		this.partNome = "";
+		this.partDesc = "";
+		this.componentes = new HashMap<>();
+		this.isPrimitiva();
+		this.nomeServidor = nomeServidor;
+	}
 	
 	/**
 	 * Gera uma nova peça com um código aleatório.
@@ -73,7 +84,26 @@ public class PartImpl implements Part {
 		this.nomeServidor = nomeServidor;
 	}
 	 
-	 
+	
+	 /**
+	 * Cria uma nova peça com todos os atributos definidos
+ 	 * @param partCod the part cod
+ 	 * @param partNome the part nome
+ 	 * @param partDesc the part desc
+ 	 * @param componentes the componentes
+ 	 * @param nomeServidor the nome servidor
+ 	 */
+	public PartImpl(String partCod, String partNome, String partDesc, 
+			Map<String, Entry<PartImpl, Integer>> componentes,
+			String nomeServidor) {
+		super();
+		this.partCod = partCod;
+		this.partNome = partNome;
+		this.partDesc = partDesc;
+		this.componentes = componentes;
+		this.nomeServidor = nomeServidor;
+		this.isPrimitiva();
+	}
 
 	@Override
 	public String toString() {
@@ -173,14 +203,14 @@ public class PartImpl implements Part {
 		//agora podemos converter para a classe
 		PartImpl otherObj = (PartImpl)other; 
 		// se possuem o mesmo código, então são iguais
-		return this.partCod.equals(otherObj.getPartCod());
+		return this.partCod.equals(otherObj.getPartCod()) && 
+				this.nomeServidor.equals(otherObj.nomeServidor);
 	}
 	
 	@Override
 	public int hashCode() {
 		return (int) this.getPartCod().hashCode() 
-				^ this.getPartNome().hashCode()
-				^ this.getPartDesc().hashCode(); 
+				^ this.getNomeServidor().hashCode(); 
 	}
 
 	@Override

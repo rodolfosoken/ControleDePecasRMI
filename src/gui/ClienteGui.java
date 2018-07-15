@@ -69,7 +69,7 @@ public class ClienteGui extends JFrame {
 	public ClienteGui() {
 		setTitle("Programa Cliente");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 965, 584);
+		setBounds(100, 100, 1039, 584);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -103,9 +103,10 @@ public class ClienteGui extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnNovaPea = new JButton("Nova Peça");
-		btnNovaPea.setBounds(176, 413, 123, 23);
-		panel.add(btnNovaPea);
+		JButton btnNovaPeca = new JButton("Nova Peça");
+		btnNovaPeca.setBounds(176, 413, 123, 23);
+		panel.add(btnNovaPeca);
+		btnNovaPeca.setEnabled(false);
 		
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(10, 107, 46, 14);
@@ -124,15 +125,12 @@ public class ClienteGui extends JFrame {
 		panel.add(textFieldNomePA);
 		textFieldNomePA.setColumns(10);
 		
-		textAreaDescPA = new JTextArea();
-		textAreaDescPA.setBounds(80, 169, 198, 52);
-		panel.add(textAreaDescPA);
-		
 		JLabel lblServidor = new JLabel("Servidor");
 		lblServidor.setBounds(10, 138, 46, 14);
 		panel.add(lblServidor);
 		
 		textFieldNomeServidorPA = new JTextField();
+		textFieldNomeServidorPA.setEditable(false);
 		textFieldNomeServidorPA.setBounds(80, 135, 198, 20);
 		panel.add(textFieldNomeServidorPA);
 		textFieldNomeServidorPA.setColumns(10);
@@ -153,6 +151,7 @@ public class ClienteGui extends JFrame {
 		lblPea.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setEnabled(false);
 		btnBuscar.setBounds(223, 57, 76, 23);
 		panel.add(btnBuscar);
 		
@@ -163,6 +162,15 @@ public class ClienteGui extends JFrame {
 		listComponentsPartAtualPA = new JList<Part>();
 		scrollPane_2.setViewportView(listComponentsPartAtualPA);
 		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(80, 168, 203, 52);
+		panel.add(scrollPane_3);
+		
+		textAreaDescPA = new JTextArea();
+		textAreaDescPA.setLineWrap(true);
+		textAreaDescPA.setColumns(8);
+		scrollPane_3.setViewportView(textAreaDescPA);
+		
 		JLabel lblListPartRepository = new JLabel("Peças no Repositório Atual");
 		lblListPartRepository.setHorizontalAlignment(SwingConstants.CENTER);
 		lblListPartRepository.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -170,11 +178,14 @@ public class ClienteGui extends JFrame {
 		contentPane.add(lblListPartRepository);
 		
 		JButton btnSavePart = new JButton("→");
-		btnSavePart.setBounds(660, 286, 66, 23);
+		btnSavePart.setEnabled(false);
+
+		btnSavePart.setBounds(660, 253, 66, 23);
 		contentPane.add(btnSavePart);
 		
 		JButton btnEditPart = new JButton("←");
 		btnEditPart.setBounds(660, 320, 66, 23);
+		btnEditPart.setEnabled(false);
 		contentPane.add(btnEditPart);
 		
 		JLabel lblListaAtualDe = new JLabel("Lista Atual de Peças");
@@ -184,14 +195,21 @@ public class ClienteGui extends JFrame {
 		contentPane.add(lblListaAtualDe);
 		
 		JButton btnAddSubPart2List = new JButton("←");
+		btnAddSubPart2List.setEnabled(false);
 		btnAddSubPart2List.setBounds(242, 253, 89, 23);
 		contentPane.add(btnAddSubPart2List);
 		
 		JButton btnApagar = new JButton("Remover da Lista");
+		btnApagar.setEnabled(false);
+		btnApagar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnApagar.setBounds(28, 506, 182, 28);
 		contentPane.add(btnApagar);
 		
-		JButton btnSaveSubPart2Part = new JButton("Salvar →");
+		JButton btnSaveSubPart2Part = new JButton("→");
+		btnSaveSubPart2Part.setEnabled(false);
 		btnSaveSubPart2Part.setBounds(242, 320, 89, 23);
 		contentPane.add(btnSaveSubPart2Part);
 		
@@ -205,7 +223,7 @@ public class ClienteGui extends JFrame {
 		contentPane.add(spinner);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(740, 124, 199, 379);
+		scrollPane.setBounds(740, 124, 273, 351);
 		contentPane.add(scrollPane);
 		
 		listParts = new JList<Part>();
@@ -221,6 +239,21 @@ public class ClienteGui extends JFrame {
 		listSubParts = new JList<Part>();
 		scrollPane_1.setViewportView(listSubParts);
 		listSubParts.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setEnabled(false);
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					listParts.setModel(loadListRepositorio());
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnAtualizar.setBounds(805, 486, 89, 23);
+		contentPane.add(btnAtualizar);
 		
 		btnConectar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -241,6 +274,9 @@ public class ClienteGui extends JFrame {
 						cliente.getPartrepository().addPart(part);
 						//==================
 						listParts.setModel(loadListRepositorio());
+						btnAtualizar.setEnabled(true);
+						btnNovaPeca.setEnabled(true);
+						btnEditPart.setEnabled(true);
 						
 					}
 				} catch (RemoteException | NotBoundException e1) {
@@ -254,33 +290,73 @@ public class ClienteGui extends JFrame {
 		
 		btnEditPart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadPart();
+				if(!listParts.isSelectionEmpty()) {
+					loadPart(listParts.getSelectedValue());	
+					btnSavePart.setEnabled(true);
+				}else {
+					JOptionPane.showMessageDialog(contentPane, 
+							"Não há peça selecionada. ", // mensagem
+							"Nada selecionado", // titulo da janela
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 				
 			}
 		});
 		
-	}
-	private void loadPart() {
-		if(!listParts.isSelectionEmpty()) {
-			cliente.setPart((PartImpl)listParts.getSelectedValue());
-			textFieldPartCodPA.setText(cliente.getPart().getPartCod());
-			textFieldNomePA.setText(cliente.getPart().getPartNome());
-			textFieldNomeServidorPA.setText(cliente.getPart().getNomeServidor());
-			textAreaDescPA.setText(cliente.getPart().getPartDesc());
-			try {
-				listComponentsPartAtualPA.setModel(loadListComponentesPA());
-			} catch (RemoteException e) {
-				JOptionPane.showMessageDialog(contentPane, 
-						"Não foi possível carregar os componentes da peça: "+e.getMessage(), // mensagem
-						"Erro ao carregar componentes", // titulo da janela
-						JOptionPane.ERROR_MESSAGE);
+		btnNovaPeca.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					loadPart(new PartImpl(cliente.getNomeServidor()));
+					btnSavePart.setEnabled(true);
+					btnAddSubPart2List.setEnabled(true);
+				} catch (RemoteException e1) {
+					JOptionPane.showMessageDialog(contentPane, 
+							"Não foi possível criar uma nova peça: "+e1.getMessage(), // mensagem
+							"Erro ao criar peça", // titulo da janela
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
+		});
+		
+		btnSavePart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				moveToRepository();
+			}
+		});
+		
+	}
+	
+	private void moveToRepository() {
+		cliente.getPart().setNomeServidor(textFieldNomeServidorPA.getText());
+		cliente.getPart().setPartNome(textFieldNomePA.getText());
+		cliente.getPart().setPartCod(textFieldPartCodPA.getText());
+		cliente.getPart().setPartDesc(textAreaDescPA.getText());
+		try {
+			cliente.getPartrepository().addPart(cliente.getPart());
+			loadPart(new PartImpl(cliente.getNomeServidor()));// limpa campos
+			listParts.setModel(loadListRepositorio()); // recarrega a lista do repositório
 			
-		}else {
+		} catch (RemoteException e1) {
 			JOptionPane.showMessageDialog(contentPane, 
-					"Não há peça selecionada. ", // mensagem
-					"Nada selecionado", // titulo da janela
-					JOptionPane.INFORMATION_MESSAGE);
+					"Não foi possível salvar a peça: "+e1.getMessage(), // mensagem
+					"Erro ao salvar", // titulo da janela
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	private void loadPart(Part part) {
+		cliente.setPart((PartImpl)part);
+		textFieldPartCodPA.setText(cliente.getPart().getPartCod());
+		textFieldNomePA.setText(cliente.getPart().getPartNome());
+		textFieldNomeServidorPA.setText(cliente.getPart().getNomeServidor());
+		textAreaDescPA.setText(cliente.getPart().getPartDesc());
+		try {
+			listComponentsPartAtualPA.setModel(loadListComponentesPA());
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(contentPane, 
+					"Não foi possível carregar os componentes da peça: "+e.getMessage(), // mensagem
+					"Erro ao carregar componentes", // titulo da janela
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

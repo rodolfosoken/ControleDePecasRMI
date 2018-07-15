@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -156,5 +158,24 @@ public class ServidorGui extends JFrame {
 		});
 		btnStop.setBounds(215, 178, 142, 72);
 		contentPane.add(btnStop);
+		
+	    addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+            	try {
+            		if(!btnStart.isEnabled())
+            			servidor.shutdown();
+				} catch (RemoteException | NotBoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                e.getWindow().dispose();
+            }
+        });
+		
 	}
+	
+	
 }
