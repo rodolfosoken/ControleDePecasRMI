@@ -373,7 +373,7 @@ public class ClienteGui extends JFrame {
 					textAreaDescPA.setEnabled(true);
 				}else {
 					JOptionPane.showMessageDialog(contentPane, 
-							"Não há peça selecionada. ", // mensagem
+							"Por favor, selecione uma peça do repositório. ", // mensagem
 							"Nada selecionado", // titulo da janela
 							JOptionPane.INFORMATION_MESSAGE);
 				}
