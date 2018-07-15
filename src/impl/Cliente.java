@@ -4,10 +4,14 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import interfaces.Part;
 import interfaces.PartRepository;
 
 /**
@@ -80,7 +84,26 @@ public class Cliente {
 	public PartRepository getPartrepository() {
 		return this.partRepository;
 	}
+
+	public Map<String, Entry<PartImpl, Integer>> getListaAtual() {
+		return listaAtual;
+	}
+
+	public void setListaAtual(Map<String, Entry<PartImpl, Integer>> listaAtual) {
+		this.listaAtual = listaAtual;
+	}
 	
+	public void add2ListaAtual(PartImpl part, int qtd) {
+		getListaAtual().put(part.getPartCod(), new AbstractMap.SimpleEntry<PartImpl,Integer>((PartImpl)part, qtd));
+	}
+	
+	public List<Part> getListListaAtual() {
+		List<Part> l = new ArrayList<>();
+		for (Entry<PartImpl,Integer> entry : listaAtual.values()) {
+			l.add(entry.getKey());
+		}
+		return l;
+	}
 	
 
 }

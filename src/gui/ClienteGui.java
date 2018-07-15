@@ -29,6 +29,7 @@ import javax.swing.border.MatteBorder;
 import impl.Cliente;
 import impl.PartImpl;
 import interfaces.Part;
+import javax.swing.SpinnerNumberModel;
 
 public class ClienteGui extends JFrame {
 
@@ -195,6 +196,7 @@ public class ClienteGui extends JFrame {
 		contentPane.add(lblListaAtualDe);
 		
 		JButton btnAddSubPart2List = new JButton("←");
+
 		btnAddSubPart2List.setEnabled(false);
 		btnAddSubPart2List.setBounds(242, 253, 89, 23);
 		contentPane.add(btnAddSubPart2List);
@@ -209,6 +211,7 @@ public class ClienteGui extends JFrame {
 		contentPane.add(btnApagar);
 		
 		JButton btnSaveSubPart2Part = new JButton("→");
+
 		btnSaveSubPart2Part.setEnabled(false);
 		btnSaveSubPart2Part.setBounds(242, 320, 89, 23);
 		contentPane.add(btnSaveSubPart2Part);
@@ -219,6 +222,7 @@ public class ClienteGui extends JFrame {
 		contentPane.add(lblQtd);
 		
 		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
 		spinner.setBounds(256, 222, 62, 20);
 		contentPane.add(spinner);
 		
@@ -239,6 +243,9 @@ public class ClienteGui extends JFrame {
 		listSubParts = new JList<Part>();
 		scrollPane_1.setViewportView(listSubParts);
 		listSubParts.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
+		
+		//========================= Listeners ============================================
 		
 		JButton btnAtualizar = new JButton("Atualizar");
 		btnAtualizar.setEnabled(false);
@@ -267,12 +274,12 @@ public class ClienteGui extends JFrame {
 						cliente = new Cliente(textNomeServidor.getText());
 						lblStatus.setText("Conectado à "+cliente.getNomeServidor());
 						
-						//===================
+	//=================== Debug =============
 						Part part = new PartImpl("Peça1", "Peça composta criada por um cliente",cliente.getNomeServidor());
 						Part part2 = new PartImpl("Peça2", "componente criado por um cliente",cliente.getNomeServidor());
 						part.addComponent(part2, 5);
 						cliente.getPartrepository().addPart(part);
-						//==================
+		//==================
 						listParts.setModel(loadListRepositorio());
 						btnAtualizar.setEnabled(true);
 						btnNovaPeca.setEnabled(true);
@@ -291,8 +298,10 @@ public class ClienteGui extends JFrame {
 		btnEditPart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!listParts.isSelectionEmpty()) {
+					cliente.setPart((PartImpl) listParts.getSelectedValue());
 					loadPart(listParts.getSelectedValue());	
 					btnSavePart.setEnabled(true);
+					btnAddSubPart2List.setEnabled(true);
 				}else {
 					JOptionPane.showMessageDialog(contentPane, 
 							"Não há peça selecionada. ", // mensagem
@@ -324,13 +333,40 @@ public class ClienteGui extends JFrame {
 			}
 		});
 		
+		btnAddSubPart2List.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setClientePart();
+				try {
+					cliente.add2ListaAtual(cliente.getPart(),(int)spinner.getValue());
+					listSubParts.setModel(loadListSubPartsPA());
+					btnSaveSubPart2Part.setEnabled(true);
+					btnApagar.setEnabled(true);
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		btnSaveSubPart2Part.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		
+		//============================== Fim do método ===============================
 	}
 	
-	private void moveToRepository() {
+	private void setClientePart() {
 		cliente.getPart().setNomeServidor(textFieldNomeServidorPA.getText());
 		cliente.getPart().setPartNome(textFieldNomePA.getText());
 		cliente.getPart().setPartCod(textFieldPartCodPA.getText());
 		cliente.getPart().setPartDesc(textAreaDescPA.getText());
+	}
+	
+	private void moveToRepository() {
+		setClientePart();
 		try {
 			cliente.getPartrepository().addPart(cliente.getPart());
 			loadPart(new PartImpl(cliente.getNomeServidor()));// limpa campos
@@ -358,6 +394,21 @@ public class ClienteGui extends JFrame {
 					"Erro ao carregar componentes", // titulo da janela
 					JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	private AbstractListModel<Part> loadListSubPartsPA() throws RemoteException {
+		
+		List<Part> listParts = cliente.getListListaAtual();
+		
+		return new AbstractListModel<Part>() {
+			private static final long serialVersionUID = 1L;
+			public int getSize() {
+				return listParts.size();
+			}
+			public Part getElementAt(int index) {
+				return listParts.get(index);
+			}
+		};
 	}
 	
 	private AbstractListModel<Part> loadListComponentesPA() throws RemoteException {
