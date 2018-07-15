@@ -19,6 +19,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import impl.Servidor;
+import javax.swing.border.EtchedBorder;
+import javax.swing.JCheckBox;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class ServidorGui extends JFrame {
 
@@ -29,6 +33,8 @@ public class ServidorGui extends JFrame {
 	private JPanel contentPane;
 	private JTextField nomeField;
 	Servidor servidor;
+	private JTextField txtEndereco;
+	private JTextField txtPorta;
 
 	/**
 	 * Launch the application.
@@ -52,7 +58,7 @@ public class ServidorGui extends JFrame {
 	public ServidorGui() {
 		setTitle("Programa Servidor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 447, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -60,29 +66,84 @@ public class ServidorGui extends JFrame {
 
 		JLabel lblServidorStatus = new JLabel("Servidor Status: ");
 		lblServidorStatus.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblServidorStatus.setBounds(10, 11, 131, 36);
+		lblServidorStatus.setBounds(113, 11, 131, 36);
 		contentPane.add(lblServidorStatus);
 
 		JLabel lblStatus = new JLabel("Offline");
 		lblStatus.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblStatus.setBounds(137, 17, 60, 27);
+		lblStatus.setBounds(240, 17, 60, 27);
 		contentPane.add(lblStatus);
 
 		nomeField = new JTextField();
 		nomeField.setText("S1");
 		nomeField.setToolTipText("Nome do Servidor");
-		nomeField.setBounds(160, 77, 219, 36);
+		nomeField.setBounds(136, 63, 153, 36);
 		contentPane.add(nomeField);
 		nomeField.setColumns(10);
 
 		JLabel lblNomeDoServidor = new JLabel("Nome do Servidor:");
 		lblNomeDoServidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNomeDoServidor.setBounds(10, 85, 117, 17);
+		lblNomeDoServidor.setBounds(10, 71, 117, 17);
 		contentPane.add(lblNomeDoServidor);
 
 		JButton btnStop = new JButton("Parar Servidor");
 		btnStop.setEnabled(false);
 		JButton btnStart = new JButton("Inciar Servidor");
+		
+		btnStart.setBounds(80, 178, 136, 72);
+		contentPane.add(btnStart);
+
+
+		btnStop.setBounds(244, 178, 142, 72);
+		contentPane.add(btnStop);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panel.setBounds(10, 118, 396, 36);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		txtEndereco = new JTextField();
+		txtEndereco.setText("127.0.0.1");
+		txtEndereco.setEnabled(false);
+		txtEndereco.setBounds(72, 7, 139, 20);
+		panel.add(txtEndereco);
+		txtEndereco.setColumns(10);
+		
+		JLabel lblEndereco = new JLabel("Endereço:");
+		lblEndereco.setBounds(10, 0, 84, 33);
+		panel.add(lblEndereco);
+		lblEndereco.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		
+		JLabel lblPorta = new JLabel("Porta:");
+		lblPorta.setBounds(221, 0, 46, 33);
+		panel.add(lblPorta);
+		lblPorta.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		
+		txtPorta = new JTextField();
+		txtPorta.setText("1099");
+		txtPorta.setEnabled(false);
+		txtPorta.setBounds(277, 7, 86, 20);
+		panel.add(txtPorta);
+		txtPorta.setColumns(10);
+		
+		JCheckBox chckbxLocal = new JCheckBox("Conexão Local");
+		chckbxLocal.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				if(!chckbxLocal.isSelected()) {
+					txtEndereco.setEnabled(true);
+					txtPorta.setEnabled(true);
+				}else {
+					txtEndereco.setEnabled(false);
+					txtPorta.setEnabled(false);
+				}
+			}
+		});
+		chckbxLocal.setFont(new Font("Tahoma", Font.BOLD, 11));
+		chckbxLocal.setSelected(true);
+		chckbxLocal.setBounds(295, 63, 130, 36);
+		contentPane.add(chckbxLocal);
+		
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -92,7 +153,10 @@ public class ServidorGui extends JFrame {
 								"Erro ao iniciar o servidor", // titulo da janela
 								JOptionPane.ERROR_MESSAGE);
 					else {
-						servidor = new Servidor(nomeField.getText());
+						if(chckbxLocal.isSelected())
+							servidor = new Servidor(nomeField.getText());
+						else
+							servidor = new Servidor(nomeField.getText(),txtEndereco.getText(),Integer.parseInt(txtPorta.getText()));
 						nomeField.setEnabled(false);
 						btnStart.setEnabled(false);
 						btnStop.setEnabled(true);
@@ -113,7 +177,10 @@ public class ServidorGui extends JFrame {
 				        null, options, options[0]);
 				    if(response == 0) {
 				    	try {
-							Servidor.shutdown(nomeField.getText());
+				    		if(chckbxLocal.isSelected())
+				    			Servidor.shutdown(nomeField.getText(),null,0);
+				    		else
+				    			Servidor.shutdown(nomeField.getText(),txtEndereco.getText(),Integer.parseInt(txtPorta.getText()));
 						} catch (RemoteException e1) {
 							JOptionPane.showMessageDialog(contentPane, 
 									"Não foi possível finalizar o servidor."+ e1.getMessage(), // mensagem
@@ -127,14 +194,16 @@ public class ServidorGui extends JFrame {
 				}
 			}
 		});
-		btnStart.setBounds(40, 178, 136, 72);
-		contentPane.add(btnStart);
-
+		
+		
 		btnStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (servidor != null) {
 					try {
-						servidor.shutdown();
+						if(chckbxLocal.isSelected())
+							servidor.shutdown();
+						else
+							Servidor.shutdown(nomeField.getText(),txtEndereco.getText(),Integer.parseInt(txtPorta.getText()));
 					} catch (RemoteException e1) {
 						JOptionPane.showMessageDialog(contentPane, "O Registro RMI não foi encontrado", // mensagem
 								"Erro ao finalizar o servidor: " + e1.getMessage(), // titulo da janela
@@ -156,8 +225,6 @@ public class ServidorGui extends JFrame {
 				}
 			}
 		});
-		btnStop.setBounds(215, 178, 142, 72);
-		contentPane.add(btnStop);
 		
 	    addWindowListener(new WindowAdapter()
         {
@@ -176,6 +243,4 @@ public class ServidorGui extends JFrame {
         });
 		
 	}
-	
-	
 }

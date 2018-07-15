@@ -31,6 +31,10 @@ import impl.Cliente;
 import impl.PartImpl;
 import interfaces.Part;
 import java.awt.SystemColor;
+import javax.swing.JCheckBox;
+import javax.swing.border.EtchedBorder;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class ClienteGui extends JFrame {
 
@@ -48,6 +52,8 @@ public class ClienteGui extends JFrame {
 	private JList<Part> listComponentsPartAtualPA;
 	private JList<Part> listParts;
 	private JList<Part> listSubParts;
+	private JTextField textEndereco;
+	private JTextField textPorta;
 	
 	/**
 	 * Launch the application.
@@ -79,34 +85,34 @@ public class ClienteGui extends JFrame {
 		
 		JLabel lblNomeDoServidor = new JLabel("Nome do Servidor");
 		lblNomeDoServidor.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNomeDoServidor.setBounds(28, 23, 164, 39);
+		lblNomeDoServidor.setBounds(10, 11, 164, 39);
 		contentPane.add(lblNomeDoServidor);
 		
 		textNomeServidor = new JTextField();
 		textNomeServidor.setText("S1");
-		textNomeServidor.setBounds(185, 30, 275, 28);
+		textNomeServidor.setBounds(161, 18, 170, 28);
 		contentPane.add(textNomeServidor);
 		textNomeServidor.setColumns(10);
 
 		JLabel lblStatus = new JLabel("Offline");
 		lblStatus.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblStatus.setBounds(616, 30, 164, 28);
+		lblStatus.setBounds(602, 41, 262, 28);
 		contentPane.add(lblStatus);
 		
 		JButton btnConectar = new JButton("Conectar");
 		
-		btnConectar.setBounds(488, 33, 89, 23);
+		btnConectar.setBounds(242, 53, 89, 23);
 		contentPane.add(btnConectar);
 		
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		panel.setBounds(341, 87, 309, 447);
+		panel.setBounds(341, 100, 309, 434);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnNovaPeca = new JButton("Nova Peça");
-		btnNovaPeca.setBounds(176, 413, 123, 23);
+		btnNovaPeca.setBounds(176, 406, 123, 23);
 		panel.add(btnNovaPeca);
 		btnNovaPeca.setEnabled(false);
 		
@@ -209,7 +215,7 @@ public class ClienteGui extends JFrame {
 		btnAddSubPart2List.setBounds(242, 253, 89, 23);
 		contentPane.add(btnAddSubPart2List);
 		
-		JButton btnApagar = new JButton("Remover da Lista");
+		JButton btnApagar = new JButton("Limpar da Lista");
 		btnApagar.setEnabled(false);
 
 		btnApagar.setBounds(28, 506, 182, 28);
@@ -268,6 +274,55 @@ public class ClienteGui extends JFrame {
 		btnAtualizar.setBounds(805, 486, 89, 23);
 		contentPane.add(btnAtualizar);
 		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panel_1.setBounds(341, 11, 202, 65);
+		contentPane.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblEnd = new JLabel("End.:");
+		lblEnd.setBounds(10, 11, 46, 14);
+		panel_1.add(lblEnd);
+		
+		JLabel lblPorta = new JLabel("Porta:");
+		lblPorta.setBounds(10, 36, 46, 14);
+		panel_1.add(lblPorta);
+		
+		textEndereco = new JTextField();
+		textEndereco.setText("127.0.0.1");
+		textEndereco.setEnabled(false);
+		textEndereco.setBounds(46, 8, 146, 20);
+		panel_1.add(textEndereco);
+		textEndereco.setColumns(10);
+		
+		textPorta = new JTextField();
+		textPorta.setText("1099");
+		textPorta.setEnabled(false);
+		textPorta.setBounds(46, 36, 86, 20);
+		panel_1.add(textPorta);
+		textPorta.setColumns(10);
+		
+		JCheckBox chckbxConexoLocal = new JCheckBox("Conexão local");
+		chckbxConexoLocal.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				if(!chckbxConexoLocal.isSelected()) {
+					textPorta.setEnabled(true);
+					textEndereco.setEnabled(true);
+				}else {
+					textPorta.setEnabled(false);
+					textEndereco.setEnabled(false);
+				}
+					
+			}
+		});
+		chckbxConexoLocal.setSelected(true);
+		chckbxConexoLocal.setBounds(549, 11, 113, 23);
+		contentPane.add(chckbxConexoLocal);
+		
+		JLabel lblStatus_1 = new JLabel("Status: ");
+		lblStatus_1.setBounds(553, 50, 46, 14);
+		contentPane.add(lblStatus_1);
+		
 		btnConectar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -277,9 +332,19 @@ public class ClienteGui extends JFrame {
 								"Campo Obrigatório", // titulo da janela
 								JOptionPane.ERROR_MESSAGE);
 					else {
-						if(cliente==null)
-							cliente = new Cliente(textNomeServidor.getText());
-						cliente.bind(textNomeServidor.getText());
+						if(cliente==null) {
+							if(chckbxConexoLocal.isSelected())
+								cliente = new Cliente(textNomeServidor.getText());
+							else {
+								cliente = new Cliente();
+								cliente.bind(textNomeServidor.getText(),textEndereco.getText(),Integer.parseInt(textPorta.getText()));
+							}
+						}else {
+						if(chckbxConexoLocal.isSelected())
+							cliente.bind(textNomeServidor.getText());
+						else
+							cliente.bind(textNomeServidor.getText(),textEndereco.getText(),Integer.parseInt(textPorta.getText()));
+						}
 						lblStatus.setText("Conectado à "+cliente.getNomeServidor());
 						
 						listParts.setModel(loadListRepositorio());

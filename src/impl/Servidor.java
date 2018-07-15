@@ -43,10 +43,29 @@ public class Servidor {
 		this.servidorNome = servidorNome;
 		this.partRepository = new PartRepositoryImpl(this);
 
-			PartRepository stub = (PartRepository) UnicastRemoteObject.exportObject(partRepository,0);
-			registry = LocateRegistry.getRegistry();
-			registry.bind(this.servidorNome, stub);
-			System.out.println("Servidor "+servidorNome+" iniciado.");
+		PartRepository stub = (PartRepository) UnicastRemoteObject.exportObject(partRepository,0);
+		registry = LocateRegistry.getRegistry();
+		registry.bind(this.servidorNome, stub);
+		System.out.println("Servidor "+servidorNome+" iniciado.");
+		
+
+	}
+	
+	/**
+	 * Cria um novo servidor com um repositório de peças.
+	 * @param servidorNome o nome do servidor	
+	 * @param endereco o endereco
+	 * @param port  a porta
+	 * @throws AlreadyBoundException 
+	 * **/
+	public Servidor(String servidorNome, String endereco, int port)throws RemoteException, AlreadyBoundException {
+		this.servidorNome = servidorNome;
+		this.partRepository = new PartRepositoryImpl(this);
+
+		PartRepository stub = (PartRepository) UnicastRemoteObject.exportObject(partRepository,0);
+		registry = LocateRegistry.getRegistry(endereco,port);
+		registry.bind(this.servidorNome, stub);
+		System.out.println("Servidor "+servidorNome+" iniciado.");
 		
 
 	}
@@ -58,8 +77,12 @@ public class Servidor {
 
 	}
 
-	public static void shutdown(String servidorNome) throws RemoteException, NotBoundException {
-		Registry registry = LocateRegistry.getRegistry();
+	public static void shutdown(String servidorNome, String endereco, int porta) throws RemoteException, NotBoundException {
+		Registry registry;
+		if(endereco!=null)
+			registry = LocateRegistry.getRegistry(endereco,porta);
+		else
+			registry = LocateRegistry.getRegistry();
 		registry.unbind(servidorNome);
 		System.out.println("Servidor "+servidorNome+" finalizado.");
 	}

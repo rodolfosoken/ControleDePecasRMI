@@ -63,6 +63,20 @@ public class Cliente {
 	}
 	
 	
+	/**
+	 * Conecta à um servidor usando endereço e porta.
+	 *
+	 * @param servidorNome nome do servidor
+	 * @param endereco o endereco
+	 * @param port  a porta
+	 * @throws RemoteException 
+	 * @throws NotBoundException 
+	 */
+	public void bind(String servidorNome, String endereco, int port) throws RemoteException, NotBoundException {
+		registry = LocateRegistry.getRegistry(endereco,port);
+		this.partRepository = (PartRepository) registry.lookup(servidorNome);	
+	}
+	
 	public String getNomeServidor() throws RemoteException {
 		return this.partRepository.getNomeServidor();
 	}
