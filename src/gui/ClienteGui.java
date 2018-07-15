@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
@@ -54,6 +55,8 @@ public class ClienteGui extends JFrame {
 	private JList<Part> listSubParts;
 	private JTextField textEndereco;
 	private JTextField textPorta;
+	private JLabel lblQtdComp;
+	private JLabel lblQtdRep;
 	
 	/**
 	 * Launch the application.
@@ -186,7 +189,12 @@ public class ClienteGui extends JFrame {
 		textAreaDescPA.setColumns(8);
 		scrollPane_3.setViewportView(textAreaDescPA);
 		
-		JLabel lblListPartRepository = new JLabel("Peças no Repositório Atual");
+		lblQtdComp = new JLabel("0");
+		lblQtdComp.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblQtdComp.setBounds(237, 256, 62, 23);
+		panel.add(lblQtdComp);
+		
+		JLabel lblListPartRepository = new JLabel("Peças no Repositório Atual :");
 		lblListPartRepository.setHorizontalAlignment(SwingConstants.CENTER);
 		lblListPartRepository.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblListPartRepository.setBounds(722, 84, 217, 29);
@@ -203,10 +211,10 @@ public class ClienteGui extends JFrame {
 		btnEditPart.setEnabled(false);
 		contentPane.add(btnEditPart);
 		
-		JLabel lblListaAtualDe = new JLabel("Lista Atual de Peças");
+		JLabel lblListaAtualDe = new JLabel("Lista Atual de Peças :");
 		lblListaAtualDe.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblListaAtualDe.setHorizontalAlignment(SwingConstants.CENTER);
-		lblListaAtualDe.setBounds(10, 84, 222, 29);
+		lblListaAtualDe.setHorizontalAlignment(SwingConstants.LEFT);
+		lblListaAtualDe.setBounds(10, 89, 182, 29);
 		contentPane.add(lblListaAtualDe);
 		
 		JButton btnAddSubPart2List = new JButton("←");
@@ -265,6 +273,7 @@ public class ClienteGui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					listParts.setModel(loadListRepositorio());
+					lblQtdRep.setText(String.valueOf(cliente.getPartrepository().getListParts().size()));
 				} catch (RemoteException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -323,6 +332,16 @@ public class ClienteGui extends JFrame {
 		lblStatus_1.setBounds(553, 50, 46, 14);
 		contentPane.add(lblStatus_1);
 		
+		lblQtdRep = new JLabel("0");
+		lblQtdRep.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblQtdRep.setBounds(949, 87, 51, 22);
+		contentPane.add(lblQtdRep);
+		
+		JLabel lblQtdLista = new JLabel("0");
+		lblQtdLista.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblQtdLista.setBounds(197, 93, 66, 20);
+		contentPane.add(lblQtdLista);
+		
 		btnConectar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -346,8 +365,8 @@ public class ClienteGui extends JFrame {
 							cliente.bind(textNomeServidor.getText(),textEndereco.getText(),Integer.parseInt(textPorta.getText()));
 						}
 						lblStatus.setText("Conectado à "+cliente.getNomeServidor());
-						
 						listParts.setModel(loadListRepositorio());
+						lblQtdRep.setText(String.valueOf(cliente.getPartrepository().getListParts().size()));
 						btnAtualizar.setEnabled(true);
 						btnNovaPeca.setEnabled(true);
 						btnEditPart.setEnabled(true);
@@ -371,6 +390,7 @@ public class ClienteGui extends JFrame {
 					btnAddSubPart2List.setEnabled(true);
 					textFieldNomePA.setEnabled(true);
 					textAreaDescPA.setEnabled(true);
+					lblQtdComp.setText(String.valueOf(cliente.getPart().getListComponentes().size()));
 				}else {
 					JOptionPane.showMessageDialog(contentPane, 
 							"Por favor, selecione uma peça do repositório. ", // mensagem
@@ -389,6 +409,7 @@ public class ClienteGui extends JFrame {
 					btnAddSubPart2List.setEnabled(true);
 					textFieldNomePA.setEnabled(true);
 					textAreaDescPA.setEnabled(true);
+					lblQtdComp.setText(String.valueOf(cliente.getPart().getListComponentes().size()));
 				} catch (RemoteException e1) {
 					JOptionPane.showMessageDialog(contentPane, 
 							"Não foi possível criar uma nova peça: "+e1.getMessage(), // mensagem
@@ -413,6 +434,8 @@ public class ClienteGui extends JFrame {
 					loadPart(new PartImpl(cliente.getNomeServidor()));
 					btnSaveSubPart2Part.setEnabled(true);
 					btnApagar.setEnabled(true);
+					lblQtdComp.setText(String.valueOf(cliente.getPart().getListComponentes().size()));
+					lblQtdLista.setText(String.valueOf(qtdLista()));
 				} catch (RemoteException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -430,6 +453,8 @@ public class ClienteGui extends JFrame {
 						cliente.getPartrepository().addPart(cliente.getPart());
 						cliente.limpaListaAtual();
 						listSubParts.setModel(loadListSubPartsPA());
+						lblQtdComp.setText(String.valueOf(cliente.getPart().getListComponentes().size()));
+						lblQtdLista.setText(String.valueOf(qtdLista()));
 					} catch (RemoteException e1) {
 						JOptionPane.showMessageDialog(contentPane, 
 								"Não foi possível salvar a peça: "+e1.getMessage(), // mensagem
@@ -450,6 +475,7 @@ public class ClienteGui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					cliente.limpaListaAtual();
+					lblQtdLista.setText(String.valueOf(qtdLista()));
 					listSubParts.setModel(loadListSubPartsPA());
 				} catch (RemoteException e1) {
 					JOptionPane.showMessageDialog(contentPane, 
@@ -484,6 +510,15 @@ public class ClienteGui extends JFrame {
 		//============================== Fim do método ===============================
 	}
 	
+	private int qtdLista() {
+		int cont = 0; 
+		if(!cliente.getListaAtual().isEmpty())
+			for (Entry<PartImpl, Integer> en : cliente.getListaAtual().values()) {
+				cont += en.getValue();
+			}
+		return cont;
+	}
+	
 	private void setClientePart() {
 		cliente.getPart().setNomeServidor(textFieldNomeServidorPA.getText());
 		cliente.getPart().setPartNome(textFieldNomePA.getText());
@@ -498,7 +533,8 @@ public class ClienteGui extends JFrame {
 			cliente.getPartrepository().addPart(cliente.getPart());
 			loadPart(new PartImpl(cliente.getNomeServidor()));// limpa campos
 			listParts.setModel(loadListRepositorio()); // recarrega a lista do repositório
-			
+			lblQtdRep.setText(String.valueOf(cliente.getPartrepository().getListParts().size()));
+			lblQtdComp.setText(String.valueOf(cliente.getPart().getListComponentes().size()));			
 		} catch (RemoteException e1) {
 			JOptionPane.showMessageDialog(contentPane, 
 					"Não foi possível salvar a peça: "+e1.getMessage(), // mensagem
