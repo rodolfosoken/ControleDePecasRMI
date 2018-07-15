@@ -2,6 +2,8 @@ package interfaces;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import impl.PartImpl;
 
@@ -105,5 +107,18 @@ public interface Part extends Serializable{
 	 * @param isPrimitiva flag que indica se a peça é primitiva
 	 * **/
 	public void setPrimitiva(boolean isPrimitiva);
+	
+	/**
+	 * Componentes da peça
+	 * @return componentes da peça
+	 * **/
+	public Map<String, Entry<PartImpl,Integer>> getComponentes();
+
+	
+	/**
+	 * @param componentes novos componentes da peça
+	 * **/
+	public void setComponentes(Map<String, Entry<PartImpl,Integer>> componentes);
+	
 
 }

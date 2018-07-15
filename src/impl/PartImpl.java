@@ -113,11 +113,11 @@ public class PartImpl implements Part {
 					", Desc.: "+this.partDesc+
 					", Serv.: "+this.nomeServidor+"]";
 		
-		return"\n[Cod.: "+this.partCod+
-				", Nome: "+this.partNome+
-				", Desc.: "+ this.partDesc+
-				", Serv.: "+this.nomeServidor+
-				", Compo.: "+this.componentes.toString() + "]";
+		return "\n[Cod.: "+partCod+
+				", Nome: "+partNome+
+				", Desc.: "+partDesc+
+				", Serv.: "+nomeServidor+
+				", Compo.: "+componentes.toString() + "]";
 	}
 	
 	@Override
@@ -223,5 +223,18 @@ public class PartImpl implements Part {
 		this.nomeServidor = nomeServidor;
 		
 	}
+
+	@Override
+	public Map<String, Entry<PartImpl, Integer>> getComponentes() {
+		return componentes;
+	}
+	
+	@Override
+	public void setComponentes(Map<String, Entry<PartImpl, Integer>> componentes) {
+		this.componentes = componentes;
+	}
+	
+	
+	
 
 }

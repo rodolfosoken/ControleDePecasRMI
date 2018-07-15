@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
@@ -271,15 +272,11 @@ public class ClienteGui extends JFrame {
 								"Campo Obrigatório", // titulo da janela
 								JOptionPane.ERROR_MESSAGE);
 					else {
-						cliente = new Cliente(textNomeServidor.getText());
+						if(cliente==null)
+							cliente = new Cliente(textNomeServidor.getText());
+						cliente.bind(textNomeServidor.getText());
 						lblStatus.setText("Conectado à "+cliente.getNomeServidor());
 						
-	//=================== Debug =============
-						Part part = new PartImpl("Peça1", "Peça composta criada por um cliente",cliente.getNomeServidor());
-						Part part2 = new PartImpl("Peça2", "componente criado por um cliente",cliente.getNomeServidor());
-						part.addComponent(part2, 5);
-						cliente.getPartrepository().addPart(part);
-		//==================
 						listParts.setModel(loadListRepositorio());
 						btnAtualizar.setEnabled(true);
 						btnNovaPeca.setEnabled(true);
@@ -351,6 +348,24 @@ public class ClienteGui extends JFrame {
 		
 		btnSaveSubPart2Part.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!cliente.getListaAtual().containsKey(cliente.getPart().getPartCod())) {
+					cliente.getPart().setComponentes(cliente.getListaAtual());
+					try {
+						listComponentsPartAtualPA.setModel(loadListComponentesPA()); // carrega componentes da peça
+						cliente.getPartrepository().addPart(cliente.getPart());
+						
+					} catch (RemoteException e1) {
+						JOptionPane.showMessageDialog(contentPane, 
+								"Não foi possível salvar a peça: "+e1.getMessage(), // mensagem
+								"Erro ao salvar", // titulo da janela
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}else {
+					JOptionPane.showMessageDialog(contentPane, 
+							"Você não pode inserir a peça nela mesma ", // mensagem
+							"Erro ao salvar", // titulo da janela
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
@@ -387,7 +402,7 @@ public class ClienteGui extends JFrame {
 		textFieldNomeServidorPA.setText(cliente.getPart().getNomeServidor());
 		textAreaDescPA.setText(cliente.getPart().getPartDesc());
 		try {
-			listComponentsPartAtualPA.setModel(loadListComponentesPA());
+			listComponentsPartAtualPA.setModel(loadListComponentesPA()); // carrega componentes da peça
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(contentPane, 
 					"Não foi possível carregar os componentes da peça: "+e.getMessage(), // mensagem
